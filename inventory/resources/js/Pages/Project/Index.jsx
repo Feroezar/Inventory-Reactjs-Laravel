@@ -51,36 +51,54 @@ export default function Index({auth, ivenits, queryParams = null}) {
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-blue-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-red-500">
                                     <tr className="text-nowrap">
-                                        <th onClick={e => sortChanged('id')} className="px-3 py-3 flex items-center justify-between gap-1">
+                                        <th onClick={e => sortChanged('id')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
                                         No
                                         <div>
-                                            <ChevronUpIcon className='w-4'/>
-                                            <ChevronDownIcon className="w-4 -mt-2"/>
+                                            <ChevronUpIcon 
+                                            className={
+                                                'w-4 ' + (queryParams.sort_field === 'id' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
+                                            <ChevronDownIcon 
+                                            className={
+                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'id' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
                                         </div>
                                         </th>
                                         <th className="px-3 py-3">Image</th>
                                         <th className="px-3 py-3">Nomor PR</th>
-                                        <th onClick={e => sortChanged('nm_barang')} className="px-3 py-3 flex items-center justify-between gap-1">
+                                        <th onClick={e => sortChanged('nm_barang')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
                                         Nama Barang
                                         <div>
-                                            <ChevronUpIcon className='w-4'/>
-                                            <ChevronDownIcon className="w-4 -mt-2"/>
+                                        <div>
+                                            <ChevronUpIcon 
+                                            className={
+                                                'w-4 ' + (queryParams.sort_field === 'nm_barang' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
+                                            <ChevronDownIcon 
+                                            className={
+                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'nm_barang' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
+                                        </div>
                                         </div>
                                         </th>
                                         <th className="px-3 py-3">Description</th>
-                                        <th onClick={e => sortChanged('stock')} className="px-3 py-3 flex items-center justify-between gap-1">
+                                        <th onClick={e => sortChanged('stock')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
                                         Stock
                                         <div>
-                                            <ChevronUpIcon className='w-4'/>
-                                            <ChevronDownIcon className="w-4 -mt-2"/>
+                                            <ChevronUpIcon 
+                                            className={
+                                                'w-4 ' + (queryParams.sort_field === 'stock' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
+                                            <ChevronDownIcon 
+                                            className={
+                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'stock' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
                                         </div>
                                         </th>
                                         <th className="px-3 py-3">Created By</th>
-                                        <th onClick={e => sortChanged('created_at')} className="px-3 py-3 flex items-center justify-between gap-1">
+                                        <th onClick={e => sortChanged('created_at')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
                                         Update at
                                         <div>
-                                            <ChevronUpIcon className='w-4'/>
-                                            <ChevronDownIcon className="w-4 -mt-2"/>
+                                            <ChevronUpIcon 
+                                            className={
+                                                'w-4 ' + (queryParams.sort_field === 'created_at' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
+                                            <ChevronDownIcon 
+                                            className={
+                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'created_at' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
                                         </div>
                                         </th>
                                         <th className="px-3 py-3">Action</th>
@@ -110,7 +128,15 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                         </th>
                                         <th className="px-3 py-3"></th>
                                         <th className="px-3 py-3"></th>
-                                        <th className="px-3 py-3"></th>
+                                        <th className="px-3 py-3">
+                                        <TextInput 
+                                                className="w-full"
+                                                defaultValue={queryParams.name}
+                                                placeholder="Created by"
+                                                onBlur={e => searcFieldChanged('name', e.target.value)}
+                                                onKeyPress={e => onKeyPress('name', e)}
+                                                />
+                                        </th>
                                         <th className="px-3 py-3"></th>
                                         <th className="px-3 py-3"></th>
                                     </tr>

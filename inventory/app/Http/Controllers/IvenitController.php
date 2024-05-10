@@ -27,7 +27,11 @@ class IvenitController extends Controller
         if(request('nm_barang')){
             $query->where('nm_barang','like','%'. request('nm_barang'). '%');
         }
-  
+        if(request('name')){
+            $query->whereHas('createdBy', function($query) {
+                $query->where('name', 'like', '%' . request('name') . '%');
+            });
+        }
         $projectit = $query
             ->orderBy($sortFields, $sortDirection)
             ->paginate(10)
