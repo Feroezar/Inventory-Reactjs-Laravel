@@ -32,13 +32,13 @@ class IvenitController extends Controller
                 $query->where('name', 'like', '%' . request('name') . '%');
             });
         }
-        $projectit = $query
+        $ivenit = $query
             ->orderBy($sortFields, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
 
         return inertia('Project/Index', [
-            "ivenits" =>IvenitResource::collection($projectit),
+            "ivenits" =>IvenitResource::collection($ivenit),
             'queryParams' => request()->query() ?: null,
         ] );
     }
@@ -64,7 +64,9 @@ class IvenitController extends Controller
      */
     public function show(ivenit $ivenit)
     {
-        //
+        return inertia('Project/show', [
+            'ivenit' => new IvenitResource($ivenit),
+        ]);
     }
 
     /**

@@ -2,10 +2,30 @@ import Pagination from "@/Components/Pagination";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import TableHeading from "@/Components/TableHeading";
+import ExportExcel from "@/Components/ExcelExport";
+import PDFExport from "@/Components/PdfExport";
 
 export default function Index({auth, ivenits, queryParams = null}) {
     queryParams = queryParams || {};
+
+    const getDataForExport = () => {
+        const data = ivenits.data.map(project => ({
+            ID: project.id,
+            "Nomor PR": project.nomor_pr,
+            "Nama Barang": project.nm_barang,
+            Description: project.description,
+            Stock: project.stock,
+            "Created By": project.created_by.name,
+            "Update At": project.created_at,
+        }));
+        return data;
+    };
+
+    const exportToExcel = () => {
+        const data = getDataForExport();
+        ExportExcel({ data, filename: "ivenit_data" });
+    };
     const searcFieldChanged = (nomor_pr,value) => {
         if(value){
             queryParams[nomor_pr] = value
@@ -49,58 +69,44 @@ export default function Index({auth, ivenits, queryParams = null}) {
                         <div className="p-6 text-gray-900 dark:text-grey-100">
                             <div className="overflow-auto">
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-blue-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-red-500">
+                                <thead className="text-xs text-blue-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-red-500">
                                     <tr className="text-nowrap">
-                                        <th onClick={e => sortChanged('id')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
-                                        No
-                                        <div>
-                                            <ChevronUpIcon 
-                                            className={
-                                                'w-4 ' + (queryParams.sort_field === 'id' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
-                                            <ChevronDownIcon 
-                                            className={
-                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'id' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
-                                        </div>
-                                        </th>
+                                        <TableHeading
+                                            name='id'
+                                            sort_field={queryParams.sort_field}
+                                            sort_direction={queryParams.sort_direction}
+                                            sortChanged={sortChanged}
+                                            >
+                                            ID
+                                        </TableHeading>
                                         <th className="px-3 py-3">Image</th>
                                         <th className="px-3 py-3">Nomor PR</th>
-                                        <th onClick={e => sortChanged('nm_barang')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
-                                        Nama Barang
-                                        <div>
-                                        <div>
-                                            <ChevronUpIcon 
-                                            className={
-                                                'w-4 ' + (queryParams.sort_field === 'nm_barang' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
-                                            <ChevronDownIcon 
-                                            className={
-                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'nm_barang' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
-                                        </div>
-                                        </div>
-                                        </th>
+                                        <TableHeading
+                                            name='nm_barang'
+                                            sort_field={queryParams.sort_field}
+                                            sort_direction={queryParams.sort_direction}
+                                            sortChanged={sortChanged}
+                                            >
+                                            Nama Barang
+                                        </TableHeading>
                                         <th className="px-3 py-3">Description</th>
-                                        <th onClick={e => sortChanged('stock')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
-                                        Stock
-                                        <div>
-                                            <ChevronUpIcon 
-                                            className={
-                                                'w-4 ' + (queryParams.sort_field === 'stock' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
-                                            <ChevronDownIcon 
-                                            className={
-                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'stock' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
-                                        </div>
-                                        </th>
+                                        <TableHeading
+                                            name='stock'
+                                            sort_field={queryParams.sort_field}
+                                            sort_direction={queryParams.sort_direction}
+                                            sortChanged={sortChanged}
+                                            >
+                                            Stock
+                                        </TableHeading>
                                         <th className="px-3 py-3">Created By</th>
-                                        <th onClick={e => sortChanged('created_at')} className="px-3 py-3 flex items-center justify-between gap-1 cursor-pointer">
-                                        Update at
-                                        <div>
-                                            <ChevronUpIcon 
-                                            className={
-                                                'w-4 ' + (queryParams.sort_field === 'created_at' && queryParams.sort_direction === 'asc' ? 'text-red-700' : "")}/>
-                                            <ChevronDownIcon 
-                                            className={
-                                                'w-4 -mt-2 ' + (queryParams.sort_field === 'created_at' && queryParams.sort_direction === 'desc' ? 'text-red-700' : "")}/>
-                                        </div>
-                                        </th>
+                                        <TableHeading
+                                            name='created_at'
+                                            sort_field={queryParams.sort_field}
+                                            sort_direction={queryParams.sort_direction}
+                                            sortChanged={sortChanged}
+                                            >
+                                            Update At
+                                        </TableHeading>
                                         <th className="px-3 py-3">Action</th>
                                     </tr>
                                 </thead>
@@ -149,7 +155,11 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                                 <img src={project.image_path} style={{width: 100 }}/>
                                             </td>
                                             <td className="px-3 py-2">{project.nomor_pr}</td>
-                                            <td className="px-3 py-2">{project.nm_barang}</td>
+                                            <th className="px-3 py-2 text-dark hover:underline">
+                                                <Link href={route('ivenit.show', project.id)}>
+                                                    {project.nm_barang}
+                                                </Link>
+                                            </th>
                                             <td className="px-3 py-2">{project.description}</td>
                                             <td className="px-3 py-2">{project.stock}</td>
                                             <td className="px-3 py-2">{project.created_by.name}</td>
@@ -168,6 +178,17 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                     ))}                     
                                 </tbody>
                             </table>
+                            <div className="flex justify-end mb-4">
+                                {/* Tambahkan tombol untuk mengekspor ke Excel */}
+                                <ExportExcel data={getDataForExport()} filename="ivenit_data" />
+                            </div>
+                            <div className="p-6 text-gray-900 dark:text-grey-100">
+                            {/* ...Kode tabel dan fungsi lainnya... */}
+                            <PDFExport data={ivenits.data} />
+
+                            {/* Tombol untuk menginisiasi ekspor ke PDF */}
+                            <button onClick={() => window.print()}>Export to PDF</button>
+                            </div>
                             </div>                            
                             <Pagination links={ivenits.meta.links}/>
                         </div>
