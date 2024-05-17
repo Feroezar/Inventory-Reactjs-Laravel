@@ -1,35 +1,96 @@
 // File: PDFExport.js
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Button } from "@material-tailwind/react";
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
+  table: {
+    display: "table",
+    width: "auto",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: '#bfbfbf',
   },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
+  tableRow: {
+    flexDirection: "row"
+  },
+  tableColHeader: {
+    width: "25%",
+    borderStyle: "solid",
+    borderWidth: 1,
+    backgroundColor: '#f3f3f3',
+    borderColor: '#bfbfbf'
+  },
+  tableCol: {
+    width: "25%",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: '#bfbfbf'
+  },
+  tableCellHeader: {
+    margin: 5,
+    fontSize: 12,
+    fontWeight: 'bold'
+  },
+  tableCell: {
+    margin: 5,
+    fontSize: 10
   }
 });
 
 const PDFExport = ({ data }) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text>ID</Text>
+    <Page size="A4" style={styles.body}>
+      <View style={styles.table}>
+        <View style={styles.tableRow}>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>ID</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Nomor PR</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Nama Barang</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Description</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Stock</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Created By</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Update At</Text>
+          </View>
+        </View>
         {data.map((item, index) => (
-          <Text key={index}>{item.id}</Text>
+          <View style={styles.tableRow} key={index}>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.id}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.nomor_pr}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.nm_barang}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.description}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.stock}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.created_by.name}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{item.created_at}</Text>
+            </View>
+          </View>
         ))}
       </View>
-      <View style={styles.section}>
-        <Text>Nomor PR</Text>
-        {data.map((item, index) => (
-          <Text key={index}>{item.nomor_pr}</Text>
-        ))}
-      </View>
-      {/* Tambahkan bagian lain dari data yang ingin Anda ekspor */}
     </Page>
   </Document>
 );

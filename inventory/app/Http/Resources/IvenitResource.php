@@ -24,6 +24,7 @@ class IvenitResource extends JsonResource
             'description' => $this->description,
             'stock' => $this->stock,
             'created_at' =>(new Carbon($this->created_at))->format('Y-m-d'),
+            'updated_at' =>(new Carbon($this->updated_at))->format('Y-m-d'),
             'created_by' => new UserResource($this->createdBy),
             'updated_by' => new UserResource($this->updatedBy)
         ];

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Pagination from "@/Components/Pagination";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -5,9 +6,28 @@ import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 import ExportExcel from "@/Components/ExcelExport";
 import PDFExport from "@/Components/PdfExport";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
+import DateFilter from '@/Components/DateFilter';
+import { Button } from '@material-tailwind/react';
 
 export default function Index({auth, ivenits, queryParams = null}) {
     queryParams = queryParams || {};
+
+    const handleDateChange = (startDate, endDate) => {
+        if (startDate) {
+            queryParams.start_date = startDate.toISOString().split('T')[0];
+        } else {
+            delete queryParams.start_date;
+        }
+        if (endDate) {
+            queryParams.end_date = endDate.toISOString().split('T')[0];
+        } else {
+            delete queryParams.end_date;
+        }
+        router.get(route('ivenit.index'), queryParams);
+    };
 
     const getDataForExport = () => {
         const data = ivenits.data.map(project => ({
@@ -59,7 +79,18 @@ export default function Index({auth, ivenits, queryParams = null}) {
     return (
         <AuthenticatedLayout
         user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Inventory</h2>}
+            header={
+            <div className='flex justify-between items-center'>
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                    Inventory</h2>
+                <Link 
+                href={route('ivenit.create')} 
+                className='bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600'
+                >
+                    Add New
+                </Link>
+            </div>
+            }
         >
         <Head title="Inventori"/>
 
@@ -68,6 +99,9 @@ export default function Index({auth, ivenits, queryParams = null}) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-grey-100">
                             <div className="overflow-auto">
+                            <div className="flex justify-between mb-4">
+                            <DateFilter onDateChange={handleDateChange} />
+                            </div>
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 <thead className="text-xs text-blue-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-red-500">
                                     <tr className="text-nowrap">
@@ -143,13 +177,14 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                                 onKeyPress={e => onKeyPress('name', e)}
                                                 />
                                         </th>
-                                        <th className="px-3 py-3"></th>
+                                        <th className="px-3 py-3">                
+                                        </th>
                                         <th className="px-3 py-3"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {ivenits.data.map((project) => (
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr key={project.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td className="px-3 py-2">{project.id}</td>
                                             <td className="px-3 py-2">
                                                 <img src={project.image_path} style={{width: 100 }}/>
@@ -163,7 +198,7 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                             <td className="px-3 py-2">{project.description}</td>
                                             <td className="px-3 py-2">{project.stock}</td>
                                             <td className="px-3 py-2">{project.created_by.name}</td>
-                                            <td className="px-3 py-2 text-nowrap">{project.created_at}</td>
+                                            <td className="px-3 py-2 text-nowrap">{project.updated_at}</td>
                                             <td className="px-3 py-2">
                                                 <Link href={route('ivenit.edit', project.id)}
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
@@ -178,16 +213,25 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                     ))}                     
                                 </tbody>
                             </table>
-                            <div className="flex justify-end mb-4">
-                                {/* Tambahkan tombol untuk mengekspor ke Excel */}
-                                <ExportExcel data={getDataForExport()} filename="ivenit_data" />
-                            </div>
-                            <div className="p-6 text-gray-900 dark:text-grey-100">
-                            {/* ...Kode tabel dan fungsi lainnya... */}
-                            <PDFExport data={ivenits.data} />
-
-                            {/* Tombol untuk menginisiasi ekspor ke PDF */}
-                            <button onClick={() => window.print()}>Export to PDF</button>
+                            <div className="mt-4">
+                                <div>
+                                    {/* Tambahkan tombol untuk mengekspor ke Excel */}
+                                    <ExportExcel
+                                    data={getDataForExport()} 
+                                    filename="Inventory Rekap" />
+                                </div>
+                                <div className='font-medium mt-4'>
+                                <Button className="bg-gradient-to-r from-red-700 to-red-500 text-white font-bold py-2 px-4 rounded flex items-center gap-3">
+                                    <PDFDownloadLink
+                                        document={<PDFExport data={ivenits.data} />}
+                                        fileName="ivenit_data.pdf"
+                                    >
+                                        {({ blob, url, loading, error }) =>
+                                            loading ? 'Loading document...' : 'Export to PDF'
+                                        }
+                                    </PDFDownloadLink>
+                                </Button>
+                                </div>  
                             </div>
                             </div>                            
                             <Pagination links={ivenits.meta.links}/>

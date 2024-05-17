@@ -7,7 +7,8 @@ import { Link } from '@inertiajs/react';
 
 export default function AuthenticatedLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    
+    const isAdmin = user.name === 'Admin';
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
@@ -27,9 +28,11 @@ export default function AuthenticatedLayout({ user, header, children }) {
                                 <NavLink href={route('ivenit.index')} active={route().current('ivenit.index')}>
                                     Inventory
                                 </NavLink>
-                                <NavLink href={route('user.index')} active={route().current('user.index')}>
-                                    User
-                                </NavLink>
+                                {isAdmin && (
+                                    <NavLink href={route('user.index')} active={route().current('user.index')}>
+                                        User
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 

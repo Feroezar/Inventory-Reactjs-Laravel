@@ -19,8 +19,15 @@ class IvenitController extends Controller
         $query = ivenit::query();
 
         $sortFields = request('sort_field', 'created_at');
-        $sortDirection = request('sort_direction', 'desc');
+        $sortDirection = request('sort_direction', 'asc');
 
+        if (request('start_date') && request('end_date')) {
+            $query->whereBetween('created_at', [request('start_date'), request('end_date')]);
+        } elseif (request('start_date')) {
+            $query->whereDate('created_at', '>=', request('start_date'));
+        } elseif (request('end_date')) {
+            $query->whereDate('created_at', '<=', request('end_date'));
+        }
         if(request('nomor_pr')){
             $query->where('nomor_pr','like','%'. request('nomor_pr'). '%');
         }
@@ -48,7 +55,7 @@ class IvenitController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Project/Create');
     }
 
     /**
