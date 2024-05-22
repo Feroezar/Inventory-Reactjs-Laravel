@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
     
     Route::resource('ivenit', IvenitController::class);
+    
     Route::resource('user', UserController::class);
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreivenitRequest extends FormRequest
 {
@@ -22,7 +23,11 @@ class StoreivenitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'image' => ['nullable', 'image'],
+            'nomor_pr' => ['required', 'max:255'],
+            'nm_barang' => ['required', 'max:255'],
+            'description' => ['string'],
+            'stock' => ['required', 'max:255'],
         ];
     }
 }

@@ -26,7 +26,7 @@ export default function Index({auth, ivenits, queryParams = null}) {
         } else {
             delete queryParams.end_date;
         }
-        router.get(route('ivenit.index'), queryParams);
+        router.get(route('ivenits.index'), queryParams);
     };
 
     const getDataForExport = () => {
@@ -53,7 +53,7 @@ export default function Index({auth, ivenits, queryParams = null}) {
             delete queryParams[nomor_pr]
         }
 
-        router.get(route('ivenit.index'), queryParams);
+        router.get(route('ivenits.index'), queryParams);
     };
     
     const onKeyPress = (nomor_pr, e) => {
@@ -72,7 +72,7 @@ export default function Index({auth, ivenits, queryParams = null}) {
                 queryParams.sort_field = name;
                 queryParams.sort_direction = 'asc';
             }
-        router.get(route('ivenit.index'), queryParams);
+        router.get(route('ivenits.index'), queryParams);
 
         };
 
@@ -84,7 +84,7 @@ export default function Index({auth, ivenits, queryParams = null}) {
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
                     Inventory</h2>
                 <Link 
-                href={route('ivenit.create')} 
+                href={route('ivenits.create')} 
                 className='bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600'
                 >
                     Add New
@@ -191,7 +191,7 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                             </td>
                                             <td className="px-3 py-2">{project.nomor_pr}</td>
                                             <th className="px-3 py-2 text-dark hover:underline">
-                                                <Link href={route('ivenit.show', project.id)}>
+                                                <Link href={route('ivenits.show', project.id)}>
                                                     {project.nm_barang}
                                                 </Link>
                                             </th>
@@ -200,11 +200,11 @@ export default function Index({auth, ivenits, queryParams = null}) {
                                             <td className="px-3 py-2">{project.created_by.name}</td>
                                             <td className="px-3 py-2 text-nowrap">{project.updated_at}</td>
                                             <td className="px-3 py-2">
-                                                <Link href={route('ivenit.edit', project.id)}
+                                                <Link href={route('ivenits.edit', project.id)}
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">
                                                     Edit
                                                 </Link>
-                                                <Link href={route('ivenit.destroy', project.id)}
+                                                <Link href={route('ivenits.destroy', project.id)}
                                                 className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1">
                                                     Delete
                                                 </Link>

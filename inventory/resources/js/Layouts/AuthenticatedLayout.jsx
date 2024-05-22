@@ -25,7 +25,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('ivenit.index')} active={route().current('ivenit.index')}>
+                                <NavLink href={route('ivenits.index')} active={route().current('ivenit.index')}>
                                     Inventory
                                 </NavLink>
                                 {isAdmin && (

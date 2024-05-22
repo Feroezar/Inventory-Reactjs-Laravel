@@ -9,6 +9,7 @@ class ivenit extends Model
 {
     use HasFactory;
     
+    protected $fillable = ['image_path', 'nomor_pr', 'nm_barang', 'description', 'stock', 'created_by', 'updated_by'];
     public function tasks(){
         
     }

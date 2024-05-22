@@ -6,6 +6,8 @@ use App\Models\ivenit;
 use App\Http\Requests\StoreivenitRequest;
 use App\Http\Requests\UpdateivenitRequest;
 use App\Http\Resources\IvenitResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class IvenitController extends Controller
 {
@@ -63,7 +65,18 @@ class IvenitController extends Controller
      */
     public function store(StoreivenitRequest $request)
     {
-        //
+        $data = $request->validated();
+        /** @var $image \Illuminate\Http\UploadedFile */
+        $image = $data['image'] ?? null;
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        if ($image) {
+            $data['image_path'] = $image->store('project/' . Str::random(), 'public');
+        }
+        ivenit::create($data);
+
+        return to_route('project.index')
+            ->with('success', 'Project was created');
     }
 
     /**
