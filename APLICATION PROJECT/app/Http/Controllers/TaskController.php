@@ -11,6 +11,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -52,11 +53,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $projects = Project::query()->orderBy('name', 'asc')->get();
-        $users = User::query()->orderBy('name', 'asc')->get();
 
+        $users = User::query()->orderBy('name', 'asc')->get();
         return inertia("Task/Create", [
-            'projects' => ProjectResource::collection($projects),
             'users' => UserResource::collection($users),
         ]);
     }
@@ -142,7 +141,10 @@ class TaskController extends Controller
     public function myTasks()
     {
         $user = auth()->user();
-        $query = Task::query()->where('assigned_user_id', $user->id);
+        $tasksku = Task::query()->where('assigned_user_id', $user->id);
+        $query = Task::whereHas('assignedUser', function ($tasksku) use ($user) {
+            $tasksku->where('divisi', $user->divisi);
+        });
 
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");

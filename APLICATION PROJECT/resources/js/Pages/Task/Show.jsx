@@ -1,6 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import {
+  PROJECT_STATUS_CLASS_MAP,
+  PROJECT_STATUS_TEXT_MAP,
   TASK_PRIORITY_CLASS_MAP,
   TASK_PRIORITY_TEXT_MAP,
   TASK_STATUS_CLASS_MAP,
@@ -53,10 +55,10 @@ export default function Show({ auth, task }) {
                       <span
                         className={
                           "px-2 py-1 rounded text-white " +
-                          TASK_STATUS_CLASS_MAP[task.status]
+                          PROJECT_STATUS_CLASS_MAP[task.status]
                         }
                       >
-                        {TASK_STATUS_TEXT_MAP[task.status]}
+                        {PROJECT_STATUS_TEXT_MAP[task.status]}
                       </span>
                     </p>
                   </div>
@@ -92,17 +94,7 @@ export default function Show({ auth, task }) {
                     <label className="font-bold text-lg">Updated By</label>
                     <p className="mt-1">{task.updatedBy.name}</p>
                   </div>
-                  <div className="mt-4">
-                    <label className="font-bold text-lg">Project</label>
-                    <p className="mt-1">
-                      <Link
-                        href={route("project.show", task.project.id)}
-                        className="hover:underline"
-                      >
-                        {task.project.name}
-                      </Link>
-                    </p>
-                  </div>
+
                   <div className="mt-4">
                     <label className="font-bold text-lg">Assigned User</label>
                     <p className="mt-1">{task.assignedUser.name}</p>

@@ -22,7 +22,8 @@ class UserCrudResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "role" => $this->role,
-            "divisi"=> $this->divisi,
+            'divisi_id' => $this->divisi_id,
+            'divisi' => $this->divisi ? new RoleResource($this->divisi) : null,
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d H:i:s'),
         ];
     }

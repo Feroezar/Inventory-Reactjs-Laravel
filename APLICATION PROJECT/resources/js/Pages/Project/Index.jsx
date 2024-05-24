@@ -5,6 +5,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
   PROJECT_STATUS_CLASS_MAP,
   PROJECT_STATUS_TEXT_MAP,
+  TASK_PRIORITY_TEXT_MAP,
+  TASK_STATUS_CLASS_MAP,
 } from "@/constants.jsx";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
@@ -89,14 +91,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         ID
                       </TableHeading>
                       <th className="px-3 py-3">Image</th>
-                      <TableHeading
-                        name="due_date"
-                        sort_field={queryParams.sort_field}
-                        sort_direction={queryParams.sort_direction}
-                        sortChanged={sortChanged}
-                      >
-                        Nomor PR
-                      </TableHeading>
+
                       <TableHeading
                         name="name"
                         sort_field={queryParams.sort_field}
@@ -140,17 +135,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3">
                         <TextInput
-                            className="w-full"
-                            defaultValue={queryParams.nomor_pr}
-                            placeholder="Nomor PR"
-                            onBlur={(e) =>
-                              searchFieldChanged("nomor_pr", e.target.value)
-                            }
-                            onKeyPress={(e) => onKeyPress("nomor_pr", e)}
-                          />
-                      </th>
-                      <th className="px-3 py-3">
-                        <TextInput
                           className="w-full"
                           defaultValue={queryParams.name}
                           placeholder="Project Name"
@@ -169,9 +153,9 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           }
                         >
                           <option value="">Select Status</option>
-                          <option value="pending">Pending</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="completed">Completed</option>
+                          <option value="pt_a">PT. A</option>
+                          <option value="pt_b">PT. B</option>
+                          <option value="pt_c">PT. C</option>
                         </SelectInput>
                       </th>
                       <th className="px-3 py-3"></th>
@@ -190,9 +174,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         <td className="px-3 py-2">
                           <img src={project.image_path} style={{ width: 60 }} />
                         </td>
-                        <td className="px-3 py-2 text-nowrap">
-                          {project.nomor_pr}
-                        </td>
                         <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
                           <Link href={route("project.show", project.id)}>
                             {project.name}
@@ -202,10 +183,10 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           <span
                             className={
                               "px-2 py-1 rounded text-white " +
-                              PROJECT_STATUS_CLASS_MAP[project.status]
+                              TASK_STATUS_CLASS_MAP[project.status]
                             }
                           >
-                            {PROJECT_STATUS_TEXT_MAP[project.status]}
+                            {TASK_PRIORITY_TEXT_MAP[project.status]}
                           </span>
                         </td>
                         <td className="px-3 py-2 text-nowrap">

@@ -52,6 +52,12 @@ export default function AuthenticatedLayout({ user, header, children }) {
                 >
                   PengajuanKu
                 </NavLink>
+                <NavLink
+                  href={route("roles.index")}
+                  active={route().current("roles.index")}
+                >
+                  Roles
+                </NavLink>
               </div>
             </div>
 

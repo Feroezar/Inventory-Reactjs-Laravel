@@ -20,7 +20,8 @@ class UserResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "role" => $this->role,
-            'divisi' => $this->divisi,
+            'divisi_id' => $this->divisi_id,
+            'divisi' => $this->divisi ? new RoleResource($this->divisi) : null,
         ];
     }
 }

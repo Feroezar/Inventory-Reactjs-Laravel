@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -16,10 +17,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     Route::resource('project', ProjectController::class);
+    Route::get('/project/divisi-tasks', [ProjectController::class, 'myInventory'])
+        ->name('project.myInventory');
     Route::get('/task/my-tasks', [TaskController::class, 'myTasks'])
         ->name('task.myTasks');
     Route::resource('task', TaskController::class);
     Route::resource('user', UserController::class);
+    Route::resource('roles', RoleController::class);
 });
 
 Route::middleware('auth')->group(function () {

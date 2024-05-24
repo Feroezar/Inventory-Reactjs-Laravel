@@ -43,20 +43,20 @@ export const USER_PRIORITY_TEXT_MAP = {
   magang: 'Magang'
 };
 export const DIVISI_PRIORITY_CLASS_MAP = {  
-  fa: 'bg-gray-600', 
-  ga: 'bg-amber-600', 
-  it: 'bg-red-600',
-  bdv: 'bg-green-500',
-  oprasional: 'bg-blue-500',
-  purchesing:'bg-yellow-500',
-  hrd:'bg-purple-500',
+  FINANCE: 'bg-gray-600', 
+  GA: 'bg-amber-600', 
+  IT: 'bg-red-600',
+  DBV: 'bg-green-500',
+  OPRASIONAL: 'bg-blue-500',
+  PURCHESING:'bg-yellow-500',
+  HRD:'bg-purple-500',
 };
 export const DIVISI_PRIORITY_TEXT_MAP = {
-  fa: 'Finance', 
-  ga: 'GA', 
-  it: 'IT',
-  bdv: 'BDV',
-  oprasional: 'OPRASIONAL',
-  purchesing:'PURCHESING',
-  hrd:'HRD',
+  FINANCE: 'Finance', 
+  GA: 'GA', 
+  IT: 'IT',
+  DBV: 'BDV',
+  OPRASIONAL: 'OPRASIONAL',
+  PURCHESING:'PURCHESING',
+  HRD:'HRD',
 };

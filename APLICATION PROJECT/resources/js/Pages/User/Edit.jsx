@@ -6,12 +6,12 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, user }) {
+export default function Create({ auth, user, role }) {
   const { data, setData, post, errors, reset } = useForm({
     name: user.name || "",
     email: user.email || "",
     role: user.role || "",
-    divisi: user.divisi || "",
+    divisi_id: user.divisi_id || "",
     password: "",
     password_confirmation: "",
     _method: "PUT",
@@ -92,24 +92,29 @@ export default function Create({ auth, user }) {
                 <InputError message={errors.role} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel htmlFor="user_divisi" value="divisi" />
+                <InputLabel
+                  htmlFor="user_divisi"
+                  value="Divisi"
+                />
 
-              <SelectInput
-                  name="divisi"
+                <SelectInput
+                  name="divisi_id"
                   id="user_divisi"
                   className="mt-1 block w-full"
-                  onChange={(e) => setData("divisi", e.target.value)}
+                  onChange={(e) => setData("divisi_id", e.target.value)}
                 >
-                  <option value="">Select Status</option>
-                  <option value="fa">Finance</option>
-                  <option value="ga">GA</option>
-                  <option value="it">IT</option>
-                  <option value="bdv">BDV</option>
-                  <option value="oprasional">OPRASIONAL</option>
-                  <option value="purchesing">PURCHESING</option>
-                  <option value="hrd">HRD</option>
+                  <option value="">Select User</option>
+                  {role.data.map((roles) => (
+                    <option value={roles.id} key={roles.id}>
+                      {roles.divisi}
+                    </option>
+                  ))}
                 </SelectInput>
-                <InputError message={errors.divisi} className="mt-2" />
+
+                <InputError
+                  message={errors.divisi}
+                  className="mt-2"
+                />
               </div>
               <div className="mt-4">
                 <InputLabel htmlFor="user_password" value="Password" />

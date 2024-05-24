@@ -174,8 +174,10 @@ export default function Index({ auth, users, queryParams = null, success }) {
                         key={user.id}
                       >
                         <td className="px-3 py-2">{user.id}</td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap">
-                          {user.name}
+                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
+                          <Link href={route("user.show", user.id)}>
+                            {user.name}
+                          </Link>
                         </th>
                         <td className="px-3 py-2">{user.email}</td>
                         <td className="px-3 py-2">
@@ -192,10 +194,10 @@ export default function Index({ auth, users, queryParams = null, success }) {
                           <span
                             className={
                               "px-2 py-1 rounded text-white " +
-                              DIVISI_PRIORITY_CLASS_MAP[user.divisi]
+                              DIVISI_PRIORITY_CLASS_MAP[user.divisi.divisi]
                             }
                           >
-                            {DIVISI_PRIORITY_TEXT_MAP[user.divisi]}
+                            {user.divisi.divisi}
                           </span>
                         </td>
                         <td className="px-3 py-2 text-nowrap">

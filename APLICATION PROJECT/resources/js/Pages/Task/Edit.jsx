@@ -9,11 +9,11 @@ import { Head, Link, useForm } from "@inertiajs/react";
 export default function Create({ auth, task, projects, users }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
+    nomor_pr: task.nomor_pr || "",
     name: task.name || "",
     status: task.status || "",
     description: task.description || "",
     due_date: task.due_date || "",
-    project_id: task.project_id || "",
     priority: task.priority || "",
     assigned_user_id: task.assigned_user_id || "",
     _method: "PUT",
@@ -50,26 +50,7 @@ export default function Create({ auth, task, projects, users }) {
                   <img src={task.image_path} className="w-64" />
                 </div>
               )}
-              <div>
-                <InputLabel htmlFor="task_project_id" value="Project" />
 
-                <SelectInput
-                  name="project_id"
-                  id="task_project_id"
-                  value={data.project_id}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("project_id", e.target.value)}
-                >
-                  <option value="">Select Project</option>
-                  {projects.data.map((project) => (
-                    <option value={project.id} key={project.id}>
-                      {project.name}
-                    </option>
-                  ))}
-                </SelectInput>
-
-                <InputError message={errors.project_id} className="mt-2" />
-              </div>
               <div className="mt-4">
                 <InputLabel htmlFor="task_image_path" value="Task Image" />
                 <TextInput
@@ -80,6 +61,23 @@ export default function Create({ auth, task, projects, users }) {
                   onChange={(e) => setData("image", e.target.files[0])}
                 />
                 <InputError message={errors.image} className="mt-2" />
+              </div>
+              <div className="mt-4">
+                <InputLabel
+                  htmlFor="project_nomor_pr"
+                  value="Nomor PR"
+                />
+
+                <TextInput
+                  id="project_nomor_pr"
+                  type="text"
+                  name="nomor_pr"
+                  value={data.nomor_pr}
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("nomor_pr", e.target.value)}
+                />
+
+                <InputError message={errors.nomor_pr} className="mt-2" />
               </div>
               <div className="mt-4">
                 <InputLabel htmlFor="task_name" value="Task Name" />

@@ -80,7 +80,7 @@ export default function Create({ auth, project }) {
                 <InputError message={errors.nomor_pr} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel htmlFor="project_name" value="Project Name" />
+                <InputLabel htmlFor="project_name" value="Nama Barang" />
 
                 <TextInput
                   id="project_name"

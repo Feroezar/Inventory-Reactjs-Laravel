@@ -6,21 +6,20 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, projects, users }) {
+export default function Create({ auth, task, users }) {
   const { data, setData, post, errors, reset } = useForm({
-    nomor_pr:"",
     image: "",
     name: "",
     stock:"",
+    nomor_pr:"",
     status: "",
     description: "",
-    due_date: "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("task.store"));
+    post(route("project.store"));
   };
 
   return (
@@ -55,17 +54,15 @@ export default function Create({ auth, projects, users }) {
                 <InputError message={errors.image} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel
-                  htmlFor="project_nomor_pr"
-                  value="Nomor PR"
-                />
+                <InputLabel htmlFor="task_nomor_pr" value="Nomor PR" />
 
                 <TextInput
-                  id="project_nomor_pr"
+                  id="task_nomor_pr"
                   type="text"
                   name="nomor_pr"
                   value={data.nomor_pr}
                   className="mt-1 block w-full"
+                  isFocused={true}
                   onChange={(e) => setData("nomor_pr", e.target.value)}
                 />
 
@@ -86,6 +83,7 @@ export default function Create({ auth, projects, users }) {
 
                 <InputError message={errors.name} className="mt-2" />
               </div>
+              
               <div className="mt-4">
                 <InputLabel
                   htmlFor="task_stock"
@@ -120,20 +118,6 @@ export default function Create({ auth, projects, users }) {
                 <InputError message={errors.description} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel htmlFor="task_due_date" value="Terakhir Pemesanan" />
-
-                <TextInput
-                  id="task_due_date"
-                  type="date"
-                  name="due_date"
-                  value={data.due_date}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("due_date", e.target.value)}
-                />
-
-                <InputError message={errors.due_date} className="mt-2" />
-              </div>
-              <div className="mt-4">
                 <InputLabel htmlFor="task_status" value="Status" />
 
                 <SelectInput
@@ -143,30 +127,12 @@ export default function Create({ auth, projects, users }) {
                   onChange={(e) => setData("status", e.target.value)}
                 >
                   <option value="">Select Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="completed">Completed</option>
+                  <option value="PT. A">PT. A</option>
+                  <option value="PT. B">PT. B</option>
+                  <option value="PT. C">PT. C</option>
                 </SelectInput>
 
                 <InputError message={errors.task_status} className="mt-2" />
-              </div>
-
-              <div className="mt-4">
-                <InputLabel htmlFor="task_priority" value="Task Priority" />
-
-                <SelectInput
-                  name="priority"
-                  id="task_priority"
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("priority", e.target.value)}
-                >
-                  <option value="">Select Priority</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </SelectInput>
-
-                <InputError message={errors.priority} className="mt-2" />
               </div>
 
               <div className="mt-4">
@@ -184,7 +150,7 @@ export default function Create({ auth, projects, users }) {
                   <option value="">Select User</option>
                   {users.data.map((user) => (
                     <option value={user.id} key={user.id}>
-                      {user.name}
+                      {user.name} {user.divisi.divisi}
                     </option>
                   ))}
                 </SelectInput>

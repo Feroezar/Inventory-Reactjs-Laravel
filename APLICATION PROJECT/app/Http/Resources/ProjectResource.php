@@ -26,6 +26,8 @@ class ProjectResource extends JsonResource
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'qty' =>  $this->qty,
             'status' => $this->status,
+            'assigned_user_id' => $this->assigned_user_id,
+            'assignedUser' => $this->assignedUser ? new UserResource($this->assignedUser) : null,
             'image_path' => $this->image_path && !(str_starts_with($this->image_path, 'http')) ?
                 Storage::url($this->image_path) : $this->image_path,
             'createdBy' => new UserResource($this->createdBy),

@@ -22,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
-        'divisi',
+        'divisi_id',
         'email_verified_at'
     ];
 
@@ -47,5 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function divisi()
+    {
+        return $this->belongsTo(Role::class, 'divisi_id');
     }
 }

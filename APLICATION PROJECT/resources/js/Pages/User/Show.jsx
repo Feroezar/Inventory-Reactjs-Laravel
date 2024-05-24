@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { USER_STATUS_CLASS_MAP, USER_STATUS_TEXT_MAP } from "@/constants.jsx";
+import { USER_PRIORITY_CLASS_MAP, USER_PRIORITY_TEXT_MAP } from "@/constants.jsx";
 import TasksTable from "../Task/TasksTable";
 export default function Show({ auth, user, tasks, queryParams }) {
   return (
@@ -41,16 +41,12 @@ export default function Show({ auth, user, tasks, queryParams }) {
                       <span
                         className={
                           "px-2 py-1 rounded text-white " +
-                          USER_STATUS_CLASS_MAP[user.status]
+                          USER_PRIORITY_CLASS_MAP[user.status]
                         }
                       >
-                        {USER_STATUS_TEXT_MAP[user.status]}
+                        {USER_PRIORITY_TEXT_MAP[user.status]}
                       </span>
                     </p>
-                  </div>
-                  <div className="mt-4">
-                    <label className="font-bold text-lg">Created By</label>
-                    <p className="mt-1">{user.createdBy.name}</p>
                   </div>
                 </div>
                 <div>
@@ -61,10 +57,6 @@ export default function Show({ auth, user, tasks, queryParams }) {
                   <div className="mt-4">
                     <label className="font-bold text-lg">Create Date</label>
                     <p className="mt-1">{user.created_at}</p>
-                  </div>
-                  <div className="mt-4">
-                    <label className="font-bold text-lg">Updated By</label>
-                    <p className="mt-1">{user.updatedBy.name}</p>
                   </div>
                 </div>
               </div>

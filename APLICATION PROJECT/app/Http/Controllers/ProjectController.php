@@ -7,6 +7,9 @@ use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Resources\UserResource;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,7 +21,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $query = Project::query();
+        $user = auth()->user();
+        $tasksku = Project::query()->where('assigned_user_id', $user->id);
+        $query = Project::whereHas('assignedUser', function ($tasksku) use ($user) {
+            $tasksku->where('divisi_id', $user->divisi_id);
+        });
 
         $sortField = request("sort_field", 'id');
         $sortDirection = request("sort_direction", "asc");
@@ -46,7 +53,13 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return inertia("Project/Create");
+        $task = Task::query()->orderBy('name', 'asc')->get();
+        $users = User::query()->orderBy('name', 'asc')->get();
+
+        return inertia("Task/Create", [
+            'task' => TaskResource::collection($task),
+            'users' => UserResource::collection($users),
+        ]);
     }
 
     /**
@@ -139,4 +152,5 @@ class ProjectController extends Controller
         return to_route('project.index')
             ->with('success', "Project \"$name\" was deleted");
     }
+    
 }

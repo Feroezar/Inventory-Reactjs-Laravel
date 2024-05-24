@@ -6,6 +6,8 @@ use App\Http\Resources\UserCrudResource;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\RoleResource;
+use App\Models\Role;
 
 class UserController extends Controller
 {
@@ -42,7 +44,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        return inertia("User/Create");
+        $role = Role::query()->orderBy('divisi', 'asc')->get();
+        return inertia("User/Create",[
+            'role' => RoleResource::collection($role),
+        ]);
     }
 
     /**
@@ -64,7 +69,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        // return inertia('User/Show', [
+        //     'user' => new UserCrudResource($user),
+        // ]);
     }
 
     /**
@@ -72,8 +79,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $role = Role::query()->orderBy('divisi', 'asc')->get();
+
         return inertia('User/Edit', [
             'user' => new UserCrudResource($user),
+            'role' => RoleResource::collection($role),
         ]);
     }
 

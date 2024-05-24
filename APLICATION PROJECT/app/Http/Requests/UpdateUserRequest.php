@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
         return [
             "name" => ["required", "string", "max:255"],
             "role" => ["required", "string", "max:255"],
-            "divisi" => ["required", "string", "max:255"],
+            "divisi_id" => ['required', 'exists:roles,id'],
             "email" => [
                 "required",
                 "email",
