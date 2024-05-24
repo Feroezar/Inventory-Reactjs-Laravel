@@ -141,16 +141,16 @@ class TaskController extends Controller
     public function myTasks()
     {
         $user = auth()->user();
-        $tasksku = Task::query()->where('assigned_user_id', $user->id);
-        $query = Task::whereHas('assignedUser', function ($tasksku) use ($user) {
-            $tasksku->where('divisi', $user->divisi);
-        });
+        $query = Task::query()->where('assigned_user_id', $user->id);
 
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
         if (request("name")) {
             $query->where("name", "like", "%" . request("name") . "%");
+        }
+        if (request("nomor_pr")) {
+            $query->where("nomor_pr", "like", "%" . request("nomor_pr") . "%");
         }
         if (request("status")) {
             $query->where("status", request("status"));

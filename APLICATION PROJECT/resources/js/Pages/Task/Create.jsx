@@ -13,13 +13,15 @@ export default function Create({ auth, task, users }) {
     stock:"",
     nomor_pr:"",
     status: "",
+    priority: "",
+    due_date:"",
     description: "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("project.store"));
+    post(route("task.store"));
   };
 
   return (
@@ -118,7 +120,21 @@ export default function Create({ auth, task, users }) {
                 <InputError message={errors.description} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel htmlFor="task_status" value="Status" />
+                <InputLabel htmlFor="task_due_date" value="Task Deadline" />
+
+                <TextInput
+                  id="task_due_date"
+                  type="date"
+                  name="due_date"
+                  value={data.due_date}
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("due_date", e.target.value)}
+                />
+
+                <InputError message={errors.due_date} className="mt-2" />
+              </div>
+               <div className="mt-4">
+                <InputLabel htmlFor="task_status" value="Task Status" />
 
                 <SelectInput
                   name="status"
@@ -127,9 +143,9 @@ export default function Create({ auth, task, users }) {
                   onChange={(e) => setData("status", e.target.value)}
                 >
                   <option value="">Select Status</option>
-                  <option value="PT. A">PT. A</option>
-                  <option value="PT. B">PT. B</option>
-                  <option value="PT. C">PT. C</option>
+                  <option value="pending">Pending</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
                 </SelectInput>
 
                 <InputError message={errors.task_status} className="mt-2" />
@@ -150,7 +166,7 @@ export default function Create({ auth, task, users }) {
                   <option value="">Select User</option>
                   {users.data.map((user) => (
                     <option value={user.id} key={user.id}>
-                      {user.name} {user.divisi.divisi}
+                      {user.name} ( {user.divisi.divisi} )
                     </option>
                   ))}
                 </SelectInput>
@@ -159,6 +175,23 @@ export default function Create({ auth, task, users }) {
                   message={errors.assigned_user_id}
                   className="mt-2"
                 />
+              </div>
+              <div className="mt-4">
+                <InputLabel htmlFor="task_priority" value="Task Priority" />
+
+                <SelectInput
+                  name="priority"
+                  id="task_priority"
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("priority", e.target.value)}
+                >
+                  <option value="">Select Priority</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </SelectInput>
+
+                <InputError message={errors.priority} className="mt-2" />
               </div>
 
               <div className="mt-4 text-right">
