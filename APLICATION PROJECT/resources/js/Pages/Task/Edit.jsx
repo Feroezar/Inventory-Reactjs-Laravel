@@ -178,7 +178,7 @@ export default function Create({ auth, task, projects, users }) {
                   <option value="">Select User</option>
                   {users.data.map((user) => (
                     <option value={user.id} key={user.id}>
-                      {user.name}
+                      {user.name} ( {user.divisi.divisi} )
                     </option>
                   ))}
                 </SelectInput>
