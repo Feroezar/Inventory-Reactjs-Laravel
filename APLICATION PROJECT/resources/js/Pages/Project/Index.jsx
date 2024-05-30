@@ -144,6 +144,17 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         <TextInput
                           className="w-full"
                           defaultValue={queryParams.name}
+                          placeholder="Nomor PR"
+                          onBlur={(e) =>
+                            searchFieldChanged("nomor_pr", e.target.value)
+                          }
+                          onKeyPress={(e) => onKeyPress("nomor_pr", e)}
+                        />
+                      </th>
+                      <th className="px-3 py-3">
+                        <TextInput
+                          className="w-full"
+                          defaultValue={queryParams.name}
                           placeholder="Project Name"
                           onBlur={(e) =>
                             searchFieldChanged("name", e.target.value)
@@ -165,7 +176,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           <option value="pt_c">PT. C</option>
                         </SelectInput>
                       </th>
-                      <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
