@@ -52,7 +52,7 @@ export const DIVISI_PRIORITY_CLASS_MAP = {
   HRD:'bg-purple-500',
 };
 export const DIVISI_PRIORITY_TEXT_MAP = {
-  FINANCE: 'Finance', 
+  FINANCE: 'FINANCE', 
   GA: 'GA', 
   IT: 'IT',
   DBV: 'BDV',

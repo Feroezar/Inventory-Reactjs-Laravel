@@ -27,6 +27,8 @@ class TaskResource extends JsonResource
             'due_date' => (new Carbon($this->due_date))->format('Y-m-d'),
             'status' => $this->status,
             'priority' => $this->priority,
+            'divisi_task' => $this->divisi_task,
+            'divisiTask' => $this->divisiTask ? new RoleResource($this->divisiTask) : null,
             'image_path' => $this->image_path && !(str_starts_with($this->image_path, 'http')) ?
                 Storage::url($this->image_path) : '',
             'nomor_pr' => $this->nomor_pr,

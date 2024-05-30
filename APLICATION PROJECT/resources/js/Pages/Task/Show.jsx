@@ -42,7 +42,7 @@ export default function Show({ auth, task }) {
                 <div>
                   <div>
                     <label className="font-bold text-lg">Task ID</label>
-                    <p className="mt-1">{task.id}</p>
+                    <p className="mt-1">{task.nomor_pr}</p>
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Task Name</label>
@@ -85,6 +85,10 @@ export default function Show({ auth, task }) {
                   <div>
                     <label className="font-bold text-lg">Due Date</label>
                     <p className="mt-1">{task.due_date}</p>
+                  </div>
+                  <div className="mt-4">
+                    <label className="font-bold text-lg">Divisi</label>
+                    <p className="mt-1">{task.divisiTask.divisi}</p>
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Create Date</label>

@@ -6,7 +6,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, task, users }) {
+export default function Create({ auth, tasks, users }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
     name: "",
@@ -132,6 +132,31 @@ export default function Create({ auth, task, users }) {
                 />
 
                 <InputError message={errors.due_date} className="mt-2" />
+              </div>
+              <div className="mt-4">
+                <InputLabel
+                  htmlFor="task_divisi_task"
+                  value="Untuk Divisi"
+                />
+
+                <SelectInput
+                  name="divisi_task"
+                  id="task_divisi_task"
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("divisi_task", e.target.value)}
+                >
+                  <option value="">Select User</option>
+                  {tasks.data.map((user) => (
+                    <option value={user.id} key={user.id}>
+                      {user.divisi}
+                    </option>
+                  ))}
+                </SelectInput>
+
+                <InputError
+                  message={errors.divisi_task}
+                  className="mt-2"
+                />
               </div>
                <div className="mt-4">
                 <InputLabel htmlFor="task_status" value="Task Status" />

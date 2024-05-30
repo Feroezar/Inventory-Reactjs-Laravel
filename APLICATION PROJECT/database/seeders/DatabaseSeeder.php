@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
+use App\Models\Role;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,11 +17,35 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        Role::factory()->create([
+            'divisi' => 'FINANCE',
+        ]);
+        Role::factory()->create([
+            'divisi' => 'GA',
+        ]);
+        Role::factory()->create([
+            'divisi' => 'IT',
+        ]);
+        Role::factory()->create([
+            'divisi' => 'BDV',
+        ]);
+        Role::factory()->create([
+            'divisi' => 'OPRASIONAL',
+        ]);
+        Role::factory()->create([
+            'divisi' => 'PURCHESING',
+        ]);
+        Role::factory()->create([
+            'divisi' => 'HRD',
+        ]);
+        
         User::factory()->create([
             'id' => 1,
-            'name' => 'Zura',
-            'email' => 'zura@example.com',
-            'password' => bcrypt('123.321A'),
+            'name' => 'Admin',
+            'email' => 'ferofelix1@gmail.com',
+            'password' => bcrypt('fero.123'),
+            'role' =>'admin',
+            'divisi_id' => '3',
             'email_verified_at' => time()
         ]);
         User::factory()->create([
@@ -28,12 +53,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'John Smith',
             'email' => 'john@example.com',
             'password' => bcrypt('123.321A'),
+            'role' =>'HOD',
+            'divisi_id' => '7',
             'email_verified_at' => time()
         ]);
 
-        Project::factory()
-            ->count(30)
-            ->hasTasks(30)
-            ->create();
+        
     }
 }

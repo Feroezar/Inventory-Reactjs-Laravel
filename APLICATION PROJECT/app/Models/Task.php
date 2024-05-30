@@ -18,6 +18,7 @@ class Task extends Model
         'status',
         'priority',
         'due_date',
+        'divisi_task',
         'assigned_user_id',
         'created_by',
         'updated_by',
@@ -27,7 +28,10 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
-
+    public function divisiTask()
+    {
+        return $this->belongsTo(Role::class, 'divisi_task');
+    }
     public function assignedUser()
     {
         return $this->belongsTo(User::class, 'assigned_user_id');

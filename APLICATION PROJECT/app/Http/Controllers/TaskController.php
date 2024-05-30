@@ -9,6 +9,8 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\RoleResource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -53,9 +55,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-
+        $tasks  = Role::query()->orderBy('divisi', 'asc')->get();
         $users = User::query()->orderBy('name', 'asc')->get();
         return inertia("Task/Create", [
+            'tasks' => RoleResource::collection($tasks),
             'users' => UserResource::collection($users),
         ]);
     }
@@ -94,12 +97,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $projects = Project::query()->orderBy('name', 'asc')->get();
+        $tasks  = Role::query()->orderBy('divisi', 'asc')->get();
         $users = User::query()->orderBy('name', 'asc')->get();
 
         return inertia("Task/Edit", [
-            'task' => new TaskResource($task),
-            'projects' => ProjectResource::collection($projects),
+            'tasks' => RoleResource::collection($tasks),
             'users' => UserResource::collection($users),
         ]);
     }

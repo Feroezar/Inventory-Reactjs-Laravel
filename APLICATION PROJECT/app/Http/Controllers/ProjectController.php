@@ -22,8 +22,8 @@ class ProjectController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $tasksku = Project::query()->where('assigned_user_id', $user->id);
-        $query = Project::whereHas('assignedUser', function ($tasksku) use ($user) {
+        $tasksku = Task::query()->where('assigned_user_id', $user->id);
+        $query = Task::whereHas('assignedUser', function ($tasksku) use ($user) {
             $tasksku->where('divisi_id', $user->divisi_id);
         });
 
@@ -42,7 +42,7 @@ class ProjectController extends Controller
             ->onEachSide(1);
 
         return inertia("Project/Index", [
-            "projects" => ProjectResource::collection($projects),
+            "projects" => TaskResource::collection($projects),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
         ]);

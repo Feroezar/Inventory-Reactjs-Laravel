@@ -28,7 +28,8 @@ class StoreTaskRequest extends FormRequest
             "description" => ['nullable', 'string'],
             'due_date' => ['nullable', 'date'],
             'nomor_pr' => ['nullable', 'max:255'],
-            'stock' => ['nullable', 'max:255'],    
+            'stock' => ['nullable', 'max:255'], 
+            'divisi_task' => ['required', 'exists:roles,id'],   
             'assigned_user_id' => ['required', 'exists:users,id'],
             'status' => [
                 'required',
