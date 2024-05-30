@@ -89,7 +89,14 @@ export default function TasksTable({
               >
                 Status
               </TableHeading>
-
+              <TableHeading
+                name="created_at"
+                sort_field={queryParams.sort_field}
+                sort_direction={queryParams.sort_direction}
+                sortChanged={sortChanged}
+              >
+                Jumlah
+              </TableHeading>
               <TableHeading
                 name="created_at"
                 sort_field={queryParams.sort_field}
@@ -151,6 +158,7 @@ export default function TasksTable({
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
+              <th className="px-3 py-3"></th>
             </tr>
           </thead>
           <tbody>
@@ -178,6 +186,7 @@ export default function TasksTable({
                     {PROJECT_STATUS_TEXT_MAP[task.status]}
                   </span>
                 </td>
+                <td className="px-3 py-2">{task.stock}</td>
                 <td className="px-3 py-2 text-nowrap">{task.created_at}</td>
                 <td className="px-3 py-2 text-nowrap">{task.due_date}</td>
                 <td className="px-3 py-2">{task.createdBy.name}</td>

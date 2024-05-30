@@ -98,9 +98,16 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         sort_direction={queryParams.sort_direction}
                         sortChanged={sortChanged}
                       >
+                        Nomor PR
+                      </TableHeading>
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
                         Nama Barang
                       </TableHeading>
-
                       <TableHeading
                         name="status"
                         sort_field={queryParams.sort_field}
@@ -162,6 +169,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
+                      <th className="px-3 py-3"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -174,8 +182,10 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         <td className="px-3 py-2">
                           <img src={project.image_path} style={{ width: 60 }} />
                         </td>
+                        <td className="px-3 py-2">{project.nomor_pr}</td>
+
                         <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
-                          <Link href={route("project.show", project.id)}>
+                          <Link href={route("task.show", project.id)}>
                             {project.name}
                           </Link>
                         </th>
@@ -183,14 +193,14 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           <span
                             className={
                               "px-2 py-1 rounded text-white " +
-                              TASK_STATUS_CLASS_MAP[project.status]
+                              PROJECT_STATUS_CLASS_MAP[project.status]
                             }
                           >
-                            {TASK_PRIORITY_TEXT_MAP[project.status]}
+                            {PROJECT_STATUS_TEXT_MAP[project.status]}
                           </span>
                         </td>
                         <td className="px-3 py-2 text-nowrap">
-                          {project.qty}
+                          {project.stock}
                         </td>
                         <td className="px-3 py-2 text-nowrap">
                           {project.created_at}

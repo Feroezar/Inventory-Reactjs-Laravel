@@ -26,6 +26,7 @@ class TaskResource extends JsonResource
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'due_date' => (new Carbon($this->due_date))->format('Y-m-d'),
             'status' => $this->status,
+            'stock' => $this->stock,
             'priority' => $this->priority,
             'divisi_task' => $this->divisi_task,
             'divisiTask' => $this->divisiTask ? new RoleResource($this->divisiTask) : null,
