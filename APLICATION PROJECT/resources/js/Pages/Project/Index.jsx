@@ -11,7 +11,7 @@ import {
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-export default function Index({ auth, projects, queryParams = null, success }) {
+export default function Index({ auth, users, projects, queryParams = null, success }) {
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
     if (value) {
@@ -55,15 +55,17 @@ export default function Index({ auth, projects, queryParams = null, success }) {
       user={auth.user}
       header={
         <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Projects
-          </h2>
-          <Link
-            href={route("project.create")}
-            className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
-          >
-            Add new
-          </Link>
+          {users.data.map((user) => {
+            // Check if the current user is the logged-in user
+            if (user.id === auth.user.id) {
+              return (
+                <h2 key={user.id} className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                  Projects {user.divisi.divisi}
+                </h2>
+              );
+            }
+            return null; // Return null for users other than the logged-in user
+          })}
         </div>
       }
     >
@@ -162,20 +164,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           onKeyPress={(e) => onKeyPress("name", e)}
                         />
                       </th>
-                      <th className="px-3 py-3">
-                        <SelectInput
-                          className="w-full"
-                          defaultValue={queryParams.status}
-                          onChange={(e) =>
-                            searchFieldChanged("status", e.target.value)
-                          }
-                        >
-                          <option value="">Select Status</option>
-                          <option value="pt_a">PT. A</option>
-                          <option value="pt_b">PT. B</option>
-                          <option value="pt_c">PT. C</option>
-                        </SelectInput>
-                      </th>
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
                       <th className="px-3 py-3"></th>
@@ -218,7 +206,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         <td className="px-3 py-2">{project.createdBy.name}</td>
                         <td className="px-3 py-2 text-nowrap">
                           <Link
-                            href={route("project.edit", project.id)}
+                            href={route("task.edit", project.id)}
                             className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                           >
                             Edit

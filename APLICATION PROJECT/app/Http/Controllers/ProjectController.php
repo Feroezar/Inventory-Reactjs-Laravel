@@ -7,6 +7,7 @@ use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Resources\UserCrudResource;
 use App\Http\Resources\UserResource;
 use App\Models\Task;
 use App\Models\User;
@@ -22,9 +23,10 @@ class ProjectController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $queryss = User::query();
         $tasksku = Task::query()->where('assigned_user_id', $user->id);
         $query = Task::whereHas('assignedUser', function ($tasksku) use ($user) {
-            $tasksku->where('divisi_id', $user->divisi_id);
+            $tasksku->where('divisi_task', $user->divisi_id);
         });
 
         $sortField = request("sort_field", 'id');
@@ -36,112 +38,22 @@ class ProjectController extends Controller
         if (request("status")) {
             $query->where("status", request("status"));
         }
-
+        $users = $queryss->orderBy($sortField, $sortDirection)
+        ->paginate(10)
+        ->onEachSide(1);
         $projects = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
 
         return inertia("Project/Index", [
+            "users" => UserCrudResource::collection($users),
             "projects" => TaskResource::collection($projects),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
+            'user' => $user
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $task = Task::query()->orderBy('name', 'asc')->get();
-        $users = User::query()->orderBy('name', 'asc')->get();
-
-        return inertia("Task/Create", [
-            'task' => TaskResource::collection($task),
-            'users' => UserResource::collection($users),
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProjectRequest $request)
-    {
-        $data = $request->validated();
-        /** @var $image \Illuminate\Http\UploadedFile */
-        $image = $data['image'] ?? null;
-        $data['created_by'] = Auth::id();
-        $data['updated_by'] = Auth::id();
-        if ($image) {
-            $data['image_path'] = $image->store('project/' . Str::random(), 'public');
-        }
-        Project::create($data);
-
-        return to_route('project.index')
-            ->with('success', 'Project was created');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Project $project)
-    {
-        $query = $project->tasks();
-
-        $sortField = request("sort_field", 'created_at');
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        if (request("status")) {
-            $query->where("status", request("status"));
-        }
-
-        $tasks = $query->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->onEachSide(1);
-        return inertia('Project/Show', [
-            'project' => new ProjectResource($project),
-            "tasks" => TaskResource::collection($tasks),
-            'queryParams' => request()->query() ?: null,
-            'success' => session('success'),
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Project $project)
-    {
-        return inertia('Project/Edit', [
-            'project' => new ProjectResource($project),
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProjectRequest $request, Project $project)
-    {
-        $data = $request->validated();
-        $image = $data['image'] ?? null;
-        $data['updated_by'] = Auth::id();
-        if ($image) {
-            if ($project->image_path) {
-                Storage::disk('public')->deleteDirectory(dirname($project->image_path));
-            }
-            $data['image_path'] = $image->store('project/' . Str::random(), 'public');
-        }
-        $project->update($data);
-
-        return to_route('project.index')
-            ->with('success', "Project \"$project->name\" was updated");
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Project $project)
     {
         $name = $project->name;

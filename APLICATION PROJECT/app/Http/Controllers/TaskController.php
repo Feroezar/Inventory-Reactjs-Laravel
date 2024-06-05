@@ -101,6 +101,7 @@ class TaskController extends Controller
         $users = User::query()->orderBy('name', 'asc')->get();
 
         return inertia("Task/Edit", [
+            'task' => new TaskResource($task),
             'tasks' => RoleResource::collection($tasks),
             'users' => UserResource::collection($users),
         ]);
@@ -123,7 +124,7 @@ class TaskController extends Controller
         $task->update($data);
 
         return to_route('task.index')
-            ->with('success', "Task \"$task->name\" was updated");
+            ->with('success', "Pemesanan \"$task->name\" Berhasil Di Perbarui");
     }
 
     /**
@@ -137,7 +138,7 @@ class TaskController extends Controller
             Storage::disk('public')->deleteDirectory(dirname($task->image_path));
         }
         return to_route('task.index')
-            ->with('success', "Task \"$name\" was deleted");
+            ->with('success', "Pemesanan \"$name\" Berhasil di hapus");
     }
 
     public function myTasks()

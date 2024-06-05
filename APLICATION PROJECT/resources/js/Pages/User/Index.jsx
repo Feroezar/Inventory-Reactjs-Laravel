@@ -115,14 +115,7 @@ export default function Index({ auth, users, queryParams = null, success }) {
                       >
                         Role
                       </TableHeading>
-                      <TableHeading
-                        name="divisi"
-                        sort_field={queryParams.sort_field}
-                        sort_direction={queryParams.sort_direction}
-                        sortChanged={sortChanged}
-                      >
-                        Divisi
-                      </TableHeading>
+                      <th className="px-3 py-3">Divisi</th>
                       <TableHeading
                         name="created_at"
                         sort_field={queryParams.sort_field}

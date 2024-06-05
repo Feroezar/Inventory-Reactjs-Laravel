@@ -9,6 +9,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
 
+  const isAdmin = user.role === 'admin';
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -40,24 +41,28 @@ export default function AuthenticatedLayout({ user, header, children }) {
                 >
                   Pemesanan
                 </NavLink>
+                {isAdmin && (
                 <NavLink
                   href={route("user.index")}
                   active={route().current("user.index")}
                 >
                   Users
                 </NavLink>
+                )}
                 <NavLink
                   href={route("task.myTasks")}
                   active={route().current("task.myTasks")}
                 >
                   PengajuanKu
                 </NavLink>
+                {isAdmin && (
                 <NavLink
                   href={route("roles.index")}
                   active={route().current("roles.index")}
                 >
                   Roles
                 </NavLink>
+                )}
               </div>
             </div>
 
