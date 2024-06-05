@@ -49,6 +49,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
     }
     router.delete(route("project.destroy", project.id));
   };
+  const completedProjects = projects.data.filter(project => project.status === 'completed');
 
   return (
     <AuthenticatedLayout
@@ -111,14 +112,6 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                         Nama Barang
                       </TableHeading>
                       <TableHeading
-                        name="status"
-                        sort_field={queryParams.sort_field}
-                        sort_direction={queryParams.sort_direction}
-                        sortChanged={sortChanged}
-                      >
-                        Status
-                      </TableHeading>
-                      <TableHeading
                         name="qty"
                         sort_field={queryParams.sort_field}
                         sort_direction={queryParams.sort_direction}
@@ -171,7 +164,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                     </tr>
                   </thead>
                   <tbody>
-                    {projects.data.map((project) => (
+                    {completedProjects.map((project) => (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                         key={project.id}
@@ -187,16 +180,6 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                             {project.name}
                           </Link>
                         </th>
-                        <td className="px-3 py-2">
-                          <span
-                            className={
-                              "px-2 py-1 rounded text-white " +
-                              PROJECT_STATUS_CLASS_MAP[project.status]
-                            }
-                          >
-                            {PROJECT_STATUS_TEXT_MAP[project.status]}
-                          </span>
-                        </td>
                         <td className="px-3 py-2 text-nowrap">
                           {project.stock}
                         </td>
