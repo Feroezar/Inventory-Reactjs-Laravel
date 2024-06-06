@@ -10,6 +10,7 @@ export default function TasksTable({
   success,
   queryParams = null,
   hideProjectColumn = false,
+  hideedit = false,
 }) {
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
@@ -190,20 +191,20 @@ export default function TasksTable({
                 <td className="px-3 py-2 text-nowrap">{task.created_at}</td>
                 <td className="px-3 py-2 text-nowrap">{task.due_date}</td>
                 <td className="px-3 py-2">{task.createdBy.name}</td>
-                <td className="px-3 py-2 text-nowrap">
-                  <Link
-                    href={route("task.edit", task.id)}
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    onClick={(e) => deleteTask(task)}
-                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                  >
-                    Delete
-                  </button>
-                </td>
+                {!hideedit && <td className="px-3 py-2 text-nowrap">
+                      <Link
+                        href={route("task.edit", task.id)}
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={(e) => deleteTask(task)}
+                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                      >
+                        Delete
+                      </button>
+                </td>} 
               </tr>
             ))}
           </tbody>

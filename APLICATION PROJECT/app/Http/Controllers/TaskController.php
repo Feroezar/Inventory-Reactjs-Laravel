@@ -10,6 +10,7 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\RoleResource;
+use App\Http\Resources\UserCrudResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,9 @@ class TaskController extends Controller
     public function index()
     {
         $query = Task::query();
+        
+        $user = auth()->user();
+        $queryss = User::query()->where('id', $user->id);
 
         $sortField = request("sort_field", 'id');
         $sortDirection = request("sort_direction", "asc");
@@ -42,9 +46,12 @@ class TaskController extends Controller
         $tasks = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
-
-        return inertia("Task/Index", [
+        $users = $queryss->orderBy($sortField, $sortDirection)
+            ->paginate(10)
+            ->onEachSide(1);
+        return inertia("Task/Pemesanan", [
             "tasks" => TaskResource::collection($tasks),
+            "users" => UserCrudResource::collection($users),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
         ]);

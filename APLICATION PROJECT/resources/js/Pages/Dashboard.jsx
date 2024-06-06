@@ -63,7 +63,7 @@ export default function Dashboard({
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <h3 className="text-gray-200 text-xl font-semibold">
-                My Active Tasks
+                Pengajuan Yang Sedang Dalam Proses
               </h3>
 
               <table className="mt-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
