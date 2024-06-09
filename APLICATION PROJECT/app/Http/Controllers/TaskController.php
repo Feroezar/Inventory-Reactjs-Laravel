@@ -25,11 +25,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $query = Task::query();
-        
+        $query = Task::query();       
         $user = auth()->user();
-        $queryss = User::query()->where('id', $user->id);
-
         $sortField = request("sort_field", 'id');
         $sortDirection = request("sort_direction", "asc");
 
@@ -46,14 +43,17 @@ class TaskController extends Controller
         $tasks = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
-        $users = $queryss->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->onEachSide(1);
+
+        $hideedit = $user->divisi && $user->divisi->divisi !== 'PURCHESING';
+
         return inertia("Task/Pemesanan", [
             "tasks" => TaskResource::collection($tasks),
-            "users" => UserCrudResource::collection($users),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
+            'auth' => [
+                'user' => new UserCrudResource($user)
+            ],
+            'hideedit' => $hideedit,
         ]);
     }
 
@@ -63,7 +63,9 @@ class TaskController extends Controller
     public function create()
     {
         $tasks  = Role::query()->orderBy('divisi', 'asc')->get();
-        $users = User::query()->orderBy('name', 'asc')->get();
+        $users = User::query()
+        ->whereIn('role', ['hod', 'spv'])
+        ->get();
         return inertia("Task/Create", [
             'tasks' => RoleResource::collection($tasks),
             'users' => UserResource::collection($users),

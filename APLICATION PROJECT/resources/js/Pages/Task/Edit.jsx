@@ -10,6 +10,7 @@ export default function Create({ auth, task, projects, users }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
     nomor_pr: task.nomor_pr || "",
+    stock: task.stock || "",
     name: task.name || "",
     status: task.status || "",
     description: task.description || "",

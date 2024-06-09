@@ -33,12 +33,12 @@ const Trigger = ({ children }) => {
 const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white dark:bg-gray-700', children }) => {
     const { open, setOpen } = useContext(DropDownContext);
 
-    let alignmentClasses = 'origin-top';
+    let alignmentClasses = 'origin-bottom';
 
     if (align === 'left') {
-        alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0';
+        alignmentClasses = 'ltr:origin-bottom-left rtl:origin-bottom-right start-0';
     } else if (align === 'right') {
-        alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
+        alignmentClasses = 'ltr:origin-bottom-right rtl:origin-bottom-left end-0';
     }
 
     let widthClasses = '';
@@ -60,8 +60,9 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
                 leaveTo="opacity-0 scale-95"
             >
                 <div
-                    className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
+                    className={`absolute z-50 mb-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
                     onClick={() => setOpen(false)}
+                    style={{ bottom: '100%' }}
                 >
                     <div className={`rounded-md ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
                 </div>

@@ -4,6 +4,7 @@ import SelectInput from "@/Components/SelectInput";
 import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { USER_PRIORITY_TEXT_MAP } from "@/constants.jsx";
 import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Create({ auth, tasks, users }) {
@@ -12,7 +13,7 @@ export default function Create({ auth, tasks, users }) {
     name: "",
     stock:"",
     nomor_pr:"",
-    status: "",
+    status: "pending",
     priority: "",
     due_date:"",
     description: "",
@@ -159,13 +160,14 @@ export default function Create({ auth, tasks, users }) {
                 />
               </div>
                <div className="mt-4">
-                <InputLabel htmlFor="task_status" value="Task Status" />
+                <InputLabel htmlFor="task_status" value="Task Status" style={{ display: 'none' }}/>
 
                 <SelectInput
                   name="status"
                   id="task_status"
                   className="mt-1 block w-full"
-                  onChange={(e) => setData("status", e.target.value)}
+                  onChange={(e) => setData({ ...data, status: e.target.value })}
+                  style={{ display: 'none' }} 
                 >
                   <option value="">Select Status</option>
                   <option value="pending">Pending</option>
@@ -191,7 +193,7 @@ export default function Create({ auth, tasks, users }) {
                   <option value="">Select User</option>
                   {users.data.map((user) => (
                     <option value={user.id} key={user.id}>
-                      {user.name} ( {user.divisi.divisi} )
+                      {user.name} ( {USER_PRIORITY_TEXT_MAP[user.role]}, {user.divisi.divisi} )
                     </option>
                   ))}
                 </SelectInput>

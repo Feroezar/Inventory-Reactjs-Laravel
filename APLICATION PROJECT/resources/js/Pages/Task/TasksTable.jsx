@@ -2,7 +2,7 @@ import Pagination from "@/Components/Pagination";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import TableHeading from "@/Components/TableHeading";
-import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants.jsx";
+import { DIVISI_PRIORITY_CLASS_MAP, DIVISI_PRIORITY_TEXT_MAP, PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "@/constants.jsx";
 import { Link, router } from "@inertiajs/react";
 
 export default function TasksTable({
@@ -20,7 +20,7 @@ export default function TasksTable({
       delete queryParams[name];
     }
 
-    router.get(route("task.index"), queryParams);
+    router.get(route("task.myTasks"), queryParams);
   };
 
   const onKeyPress = (name, e) => {
@@ -70,9 +70,7 @@ export default function TasksTable({
                 ID
               </TableHeading>
               <th className="px-3 py-3">Image</th>
-              {!hideProjectColumn && (
                 <th className="px-3 py-3">Nomor PR</th>
-              )}
               <TableHeading
                 name="stock"
                 sort_field={queryParams.sort_field}
@@ -90,6 +88,15 @@ export default function TasksTable({
               >
                 Status
               </TableHeading>
+              {!hideProjectColumn &&(
+              <TableHeading
+                name="divisi"
+                sort_field={queryParams.sort_field}
+                sort_direction={queryParams.sort_direction}
+                sortChanged={sortChanged}
+              >
+                Divisi
+              </TableHeading>)}
               <TableHeading
                 name="created_at"
                 sort_field={queryParams.sort_field}
@@ -116,7 +123,7 @@ export default function TasksTable({
                 Update date
               </TableHeading>
               <th className="px-3 py-3">Created By</th>
-              <th className="px-3 py-3 text-right">Actions</th>
+              {!hideedit &&<th className="px-3 py-3 text-right">Actions</th>}
             </tr>
           </thead>
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
@@ -134,7 +141,7 @@ export default function TasksTable({
                     onKeyPress={(e) => onKeyPress("nomor_pr", e)}
                   />
               </th>
-              {!hideProjectColumn && <th className="px-3 py-3">
+              <th className="px-3 py-3">
               <TextInput
                   className="w-full"
                   defaultValue={queryParams.name}
@@ -142,7 +149,7 @@ export default function TasksTable({
                   onBlur={(e) => searchFieldChanged("name", e.target.value)}
                   onKeyPress={(e) => onKeyPress("name", e)}
                 />
-              </th>}
+              </th>
               <th className="px-3 py-3">
                 <SelectInput
                   className="w-full"
@@ -155,11 +162,20 @@ export default function TasksTable({
                   <option value="completed">Completed</option>
                 </SelectInput>
               </th>
+              {!hideProjectColumn && <th className="px-3 py-3">
+              <TextInput
+                  className="w-full"
+                  defaultValue={queryParams.divisi}
+                  placeholder="divisi"
+                  onBlur={(e) => searchFieldChanged("divisi", e.target.value)}
+                  onKeyPress={(e) => onKeyPress("divisi", e)}
+                />
+              </th>}
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
-              <th className="px-3 py-3"></th>
+              {!hideedit &&<th className="px-3 py-3"></th>}
             </tr>
           </thead>
           <tbody>
@@ -173,10 +189,9 @@ export default function TasksTable({
                   <img src={task.image_path} style={{ width: 60 }} />
                 </td>
                 <td className="px-3 py-2 text-nowrap">{task.nomor_pr}</td>       
-                {!hideProjectColumn && (
                 <th className="px-3 py-2 text-gray-100 hover:underline">
                   <Link href={route("task.show", task.id)}>{task.name}</Link>
-                </th> )}
+                </th>
                 <td className="px-3 py-2">
                   <span
                     className={
@@ -187,6 +202,17 @@ export default function TasksTable({
                     {PROJECT_STATUS_TEXT_MAP[task.status]}
                   </span>
                 </td>
+                {!hideProjectColumn && (
+                <td className="px-3 py-2">
+                  <span
+                    className={
+                      "px-2 py-1 rounded text-nowrap text-white " +
+                      DIVISI_PRIORITY_CLASS_MAP[task.divisiTask.divisi]
+                    }
+                  >
+                    {DIVISI_PRIORITY_TEXT_MAP[task.divisiTask.divisi]}
+                  </span>
+                </td>)}
                 <td className="px-3 py-2">{task.stock}</td>
                 <td className="px-3 py-2 text-nowrap">{task.created_at}</td>
                 <td className="px-3 py-2 text-nowrap">{task.due_date}</td>

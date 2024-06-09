@@ -54,7 +54,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function destroy(Project $project)
+    public function destroy(Task $project)
     {
         $name = $project->name;
         $project->delete();

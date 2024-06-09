@@ -11,7 +11,7 @@ export default function Index({ auth, success, tasks, queryParams = null }) {
       header={
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Pengajuan Barang
+            Approval
           </h2>
           <Link
             href={route("task.create")}
@@ -32,6 +32,7 @@ export default function Index({ auth, success, tasks, queryParams = null }) {
                 tasks={tasks}
                 queryParams={queryParams}
                 success={success}
+                hideProjectColumn={true}
               />
             </div>
           </div>
