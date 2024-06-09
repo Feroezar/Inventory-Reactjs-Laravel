@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'John Smith',
             'email' => 'john@example.com',
             'password' => bcrypt('123.321A'),
-            'role' =>'HOD',
+            'role' =>'hod',
             'divisi_id' => '7',
             'email_verified_at' => time()
         ]);

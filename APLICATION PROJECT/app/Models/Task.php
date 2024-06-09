@@ -23,10 +23,9 @@ class Task extends Model
         'created_by',
         'updated_by',
     ];
-
-    public function project()
+    public function namaBarang()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Barang::class, 'name');
     }
     public function divisiTask()
     {

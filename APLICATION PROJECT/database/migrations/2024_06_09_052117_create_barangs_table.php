@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
+            $table->string('image_path')->nullable();
             $table->string('kode_barang');
-            $table->string('name');
-            $table->string('kategori');
+            $table->string('nm_barang');
             $table->string('stock');
+            $table->string('status');
+            
+            $table->foreignId('kategori')->constrained('categories');
             $table->foreignId('dv_barang')->constrained('roles');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->constrained('users');
             $table->timestamps();
         });
     }

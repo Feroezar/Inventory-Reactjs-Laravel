@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -21,6 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('project.myInventory');
     Route::get('/task/my-tasks', [TaskController::class, 'myTasks'])
         ->name('task.myTasks');
+    Route::resource('category', CategoryController::class);
+    Route::resource('inventory', BarangController::class);
     Route::resource('task', TaskController::class);
     Route::resource('user', UserController::class);
     Route::resource('roles', RoleController::class);

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nomor_pr');
             $table->string('stock');
-            $table->foreignId('nm_barang')->constrained('barangs');
+            $table->foreignId('name')->constrained('barangs');
             $table->longText('description')->nullable();
             $table->string('image_path')->nullable();
             $table->string('status');
