@@ -80,6 +80,7 @@ export default function Create({ auth, user, role }) {
                   name="role"
                   id="user_role"
                   className="mt-1 block w-full"
+                  value={data.role}
                   onChange={(e) => setData("role", e.target.value)}
                 >
                   <option value="">Select Status</option>
@@ -101,6 +102,7 @@ export default function Create({ auth, user, role }) {
                   name="divisi_id"
                   id="user_divisi"
                   className="mt-1 block w-full"
+                  value={data.divisi_id}
                   onChange={(e) => setData("divisi_id", e.target.value)}
                 >
                   <option value="">Select User</option>

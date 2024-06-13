@@ -30,10 +30,6 @@ class UpdateBarangRequest extends FormRequest
             'nomor_pr' => ['nullable', 'max:255'],
             'kategori' => ['required', 'exists:categories,id'], // corrected spelling
             'dv_barang' => ['required', 'exists:roles,id'],     // corrected spelling
-            'status' => [
-                'required',
-                Rule::in(['low_stock', 'empty', 'safe'])
-        ],
         ];
     }
 }

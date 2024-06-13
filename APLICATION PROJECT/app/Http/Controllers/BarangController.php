@@ -9,11 +9,13 @@ use App\Http\Resources\BarangResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserCrudResource;
+use App\Http\Resources\UserResource;
 use App\Models\Category;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -23,12 +25,12 @@ class BarangController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
+{   
+    $queryss = User::query();
+    $query = Barang::query();
     $sortField = request("sort_field", 'id');
     $sortDirection = request("sort_direction", "asc");
 
-    $queryss = User::query();
-    $query = Barang::with(['nmCategory', 'brgDivisi', 'createdBy', 'updatedBy']);
 
     if (request("nm_barang")) {
         $query->where("nm_barang", "like", "%" . request("nm_barang") . "%");
@@ -43,11 +45,8 @@ class BarangController extends Controller
 
     $barang = $query->orderBy($sortField, $sortDirection)
         ->paginate(10)
-        ->onEachSide(1)
-        ->through(function ($item) {
-            $item->status = $item->status; // Ensure the status is calculated
-            return $item;
-        });
+        ->onEachSide(1);
+      
 
     return inertia("Barang/Index", [
         "users" => UserCrudResource::collection($users),
@@ -116,21 +115,42 @@ public function reduceStock(Request $request, $id)
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Barang $barang)
-    {
-        //
+   /**
+ * Show the form for editing the specified resource.
+ */
+public function edit(Barang $barang)
+{
+    $dvbarang = Role::query()->orderBy('divisi', 'asc')->get();
+
+    return inertia("Barang/Edit", [
+        'barang' => new BarangResource($barang),
+        'dvbarang' => RoleResource::collection($dvbarang),
+    ]);
+}
+
+/**
+ * Update the specified resource in storage.
+ */
+public function update(UpdateBarangRequest $request, Barang $barang)
+{
+    $data = $request->validated();
+    $image = $data['image'] ?? null;
+    $data['updated_by'] = Auth::id();
+
+    if ($image) {
+        // Hapus direktori gambar lama jika ada
+        if ($barang->image_path) {
+            Storage::disk('public')->deleteDirectory(dirname($barang->image_path));
+        }
+        // Simpan gambar baru
+        $data['image_path'] = $image->store('task/' . Str::random(), 'public');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBarangRequest $request, Barang $barang)
-    {
-        //
-    }
+    $barang->update($data);
+
+    return redirect()->route('inventory.index')
+        ->with('success', "Barang \"$barang->nm_barang\" berhasil diperbarui");
+}
 
     /**
      * Remove the specified resource from storage.

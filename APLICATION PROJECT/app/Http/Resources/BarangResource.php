@@ -19,19 +19,18 @@ class BarangResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image_path' => $this->image_path && !(str_starts_with($this->image_path, 'http')) ?
-                Storage::url($this->image_path) : '',
+            'image_path' => $this->image_path ? Storage::url($this->image_path) : null,
             'kode_barang' => $this->kode_barang,
             'nm_barang' => $this->nm_barang,
-            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'stock' => $this->stock,
-            'status' => $this->status,
             'kategori' => $this->kategori,
-            'nmCategory' => $this->nmCategory ? new CategoryResource($this->nmCategory) : null,
             'dv_barang' => $this->dv_barang,
-            'brgDivisi' => $this->brgDivisi ? new RoleResource($this->brgDivisi) : null,
-            'createdBy' => new UserResource($this->createdBy),
-            'updatedBy' => new UserResource($this->updatedBy),
+            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'), // Assuming $this->created_at is a Carbon instance
+            'updated_at' => (new Carbon($this->updated_at))->format('Y-m-d'), // Assuming $this->updated_at is a Carbon instance
+            'nmCategory' => new CategoryResource($this->nmCategory), // Assuming $this->nmCategory is a relationship
+            'brgDivisi' => new RoleResource($this->brgDivisi), // Assuming $this->brgDivisi is a relationship
+            'createdBy' => new UserResource($this->createdBy), // Assuming $this->createdBy is a relationship
+            'updatedBy' => new UserResource($this->updatedBy), // Assuming $this->updatedBy is a relationship
         ];
     }
 }

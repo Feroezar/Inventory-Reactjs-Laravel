@@ -14,7 +14,6 @@ class Barang extends Model
         'kode_barang',
         'nm_barang',
         'stock',
-        'status',
         'kategori',
         'dv_barang',
         'created_by',
@@ -36,15 +35,5 @@ class Barang extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-    public function getStatusAttribute()
-    {
-        if ($this->stock < 0) {
-            return 'empty';
-        } elseif ($this->stock < 5) {
-            return 'low_stock';
-        } else {
-            return 'safe';
-        }
     }
 }

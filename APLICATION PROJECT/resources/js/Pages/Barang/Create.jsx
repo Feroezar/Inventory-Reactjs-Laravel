@@ -119,25 +119,7 @@ export default function Create({ auth, tasks, users, category, divisi }) {
                 </SelectInput>
 
                 <InputError message={errors.kategori} className="mt-2" />
-              </div>
-
-              <div className="mt-4">
-                <InputLabel htmlFor="task_status" value="Task Status"/>
-
-                <SelectInput
-                  name="status"
-                  id="task_status"
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("status", e.target.value)} // corrected setData
-                >
-                  <option value="">Select Status</option>
-                  <option value="low_stock">Low Stock</option>
-                  <option value="empty">Empty</option>
-                  <option value="safe">Safe</option>
-                </SelectInput>
-
-                <InputError message={errors.status} className="mt-2" />
-              </div>    
+              </div>   
 
               <div className="mt-4">
                 <InputLabel htmlFor="task_dv_barang" value="Untuk Divisi" />

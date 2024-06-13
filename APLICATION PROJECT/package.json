@@ -21,6 +21,8 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.1.1",
-        "use-mutation": "^2.2.1"
+        "@inertiajs/inertia-react": "^0.8.1",
+        "use-mutation": "^2.2.1",
+        "ziggy-js": "^2.2.1"
     }
 }

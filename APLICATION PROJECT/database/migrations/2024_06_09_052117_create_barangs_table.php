@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->string('kode_barang');
             $table->string('nm_barang');
-            $table->string('stock');
-            $table->string('status');
-            
+            $table->string('stock');          
             $table->foreignId('kategori')->constrained('categories');
             $table->foreignId('dv_barang')->constrained('roles');
             $table->foreignId('created_by')->constrained('users');
