@@ -26,6 +26,25 @@ class Barang extends Model
     }
     public function brgDivisi()
     {
-        return $this->belongsTo(Category::class, 'dv_barang');
+        return $this->belongsTo(Role::class, 'dv_barang');
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+    public function getStatusAttribute()
+    {
+        if ($this->stock < 0) {
+            return 'empty';
+        } elseif ($this->stock < 5) {
+            return 'low_stock';
+        } else {
+            return 'safe';
+        }
     }
 }

@@ -88,7 +88,7 @@ export default function Index({ auth, role, queryParams = null, success }){
                         sort_direction={queryParams.sort_direction}
                         sortChanged={sortChanged}
                       >
-                        Nama Barang
+                        Nama Divisi
                       </TableHeading>
 
                       <th className="px-3 py-3 text-right">Actions</th>
@@ -101,7 +101,7 @@ export default function Index({ auth, role, queryParams = null, success }){
                         <TextInput
                           className="w-full"
                           defaultValue={queryParams.divisi}
-                          placeholder="Project Name"
+                          placeholder="Nama Divisi"
                           onBlur={(e) =>
                             searchFieldChanged("divisi", e.target.value)
                           }

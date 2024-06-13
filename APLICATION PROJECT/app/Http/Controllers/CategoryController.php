@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,24 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $query = Category::query();
+
+        $sortField = request("sort_field", 'id');
+        $sortDirection = request("sort_direction", "asc");
+
+        if (request("nm_category")) {
+            $query->where("nm_category", "like", "%" . request("nm_category") . "%");
+        }
+
+        $category = $query->orderBy($sortField, $sortDirection)
+            ->paginate(10)
+            ->onEachSide(1);
+
+        return inertia("Category/Index", [
+            "category" => CategoryResource::collection($category),
+            'queryParams' => request()->query() ?: null,
+            'success' => session('success'),
+        ]);
     }
 
     /**
@@ -21,7 +39,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Category/Create');
     }
 
     /**
@@ -29,7 +47,11 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = $request->validated();
+        Category::create($category);
+
+        return to_route('category.index')
+            ->with('success', 'Category created successfully');
     }
 
     /**
@@ -45,7 +67,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return inertia('Category/Edit', [
+            'category' => new CategoryResource($category),
+        ]);
     }
 
     /**
@@ -53,7 +77,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $data = $request->validated();
+        
+        $category->update($data);
+
+        return to_route('category.index')
+            ->with('success', "Project \"$category->nm_$category\" was updated");
     }
 
     /**
@@ -61,6 +90,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $name = $category->nm_category;
+        $category->delete();
+        return to_route('category.index')
+            ->with('success', "Task \"$name\" was deleted");
     }
 }

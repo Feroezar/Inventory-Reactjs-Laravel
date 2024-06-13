@@ -61,7 +61,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
             if (user.id === auth.user.id) {
               return (
                 <h2 key={user.id} className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                  Projects {user.divisi.divisi}
+                  Buku PR {user.divisi.divisi}
                 </h2>
               );
             }
