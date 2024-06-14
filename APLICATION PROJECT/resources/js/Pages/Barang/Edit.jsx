@@ -5,24 +5,40 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useEffect } from "react";
 
 export default function Create({ auth, barang, dvbarang }) {
   const { data, setData, post, errors, reset } = useForm({
-    image:"",
+    image: "",
     nm_barang: barang.nm_barang || "",
     kode_barang: barang.kode_barang || "",
     stock: barang.stock || "",
     kategori: barang.kategori || "",
     dv_barang: barang.dv_barang || "",
     _method: "PUT",
-  });
+});
 
-  const onSubmit = (e) => {
+useEffect(() => {
+    console.log(barang); // Log data to check
+    console.log(dvbarang); // Log data to check
+
+    if (barang) {
+        setData({
+            image: "",
+            nm_barang: barang.nm_barang || "",
+            kode_barang: barang.kode_barang || "",
+            stock: barang.stock || "",
+            kategori: barang.kategori || "",
+            dv_barang: barang.dv_barang || "",
+            _method: "PUT",
+        });
+    }
+}, [barang]);
+
+const onSubmit = (e) => {
     e.preventDefault();
-
-    post(route("inventory.update", barang.id));
-  };
-
+    // tambahkan aksi submit disini
+};
   return (
     <AuthenticatedLayout
       user={auth.user}

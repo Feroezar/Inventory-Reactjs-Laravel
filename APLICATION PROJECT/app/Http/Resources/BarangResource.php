@@ -24,13 +24,13 @@ class BarangResource extends JsonResource
             'nm_barang' => $this->nm_barang,
             'stock' => $this->stock,
             'kategori' => $this->kategori,
-            'dv_barang' => $this->dv_barang,
-            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'), // Assuming $this->created_at is a Carbon instance
-            'updated_at' => (new Carbon($this->updated_at))->format('Y-m-d'), // Assuming $this->updated_at is a Carbon instance
             'nmCategory' => new CategoryResource($this->nmCategory), // Assuming $this->nmCategory is a relationship
+            'dv_barang' => $this->dv_barang,
             'brgDivisi' => new RoleResource($this->brgDivisi), // Assuming $this->brgDivisi is a relationship
             'createdBy' => new UserResource($this->createdBy), // Assuming $this->createdBy is a relationship
             'updatedBy' => new UserResource($this->updatedBy), // Assuming $this->updatedBy is a relationship
+            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'), // Assuming $this->created_at is a Carbon instance
+            'updated_at' => (new Carbon($this->updated_at))->format('Y-m-d'), // Assuming $this->updated_at is a Carbon instance
         ];
     }
 }

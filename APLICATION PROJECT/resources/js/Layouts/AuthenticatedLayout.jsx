@@ -10,17 +10,30 @@ export default function AuthenticatedLayout({ user, header, children }) {
   const isAdmin = user.role === 'admin';
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
-      <nav className="bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 w-64">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col md:flex-row">
+      <nav className="bg-white dark:bg-gray-800 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700 w-full md:w-64">
         <div className="h-full flex flex-col justify-between">
           <div>
-            <div className="flex items-center p-4">
+            <div className="flex items-center justify-between p-4 md:justify-start">
               <Link href="/">
                 <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
               </Link>
+              <button
+                type="button"
+                className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
+              >
+                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                  {showingNavigationDropdown ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
             </div>
 
-            <div className="flex-1 px-4 py-2 space-y-2">
+            <div className={`flex-1 px-4 py-2 space-y-2 md:block ${showingNavigationDropdown ? 'block' : 'hidden'}`}>
               <NavLink href={route("dashboard")} active={route().current("dashboard")}>
                 Dashboard
               </NavLink>
@@ -67,7 +80,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                     <svg className="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path
                         fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                         clipRule="evenodd"
                       />
                     </svg>

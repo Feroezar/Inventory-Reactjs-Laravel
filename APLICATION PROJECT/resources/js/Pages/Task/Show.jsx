@@ -46,7 +46,7 @@ export default function Show({ auth, task }) {
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Task Name</label>
-                    <p className="mt-1">{task.name}</p>
+                    <p className="mt-1">{task.namaBarang.nm_barang}</p>
                   </div>
 
                   <div className="mt-4">

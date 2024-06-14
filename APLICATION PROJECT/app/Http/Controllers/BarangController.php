@@ -55,6 +55,7 @@ class BarangController extends Controller
         'success' => session('success'),
     ]);
 }
+
 public function reduceStock(Request $request, $id)
 {
     $quantity = $request->input('quantity');
@@ -119,14 +120,15 @@ public function reduceStock(Request $request, $id)
  * Show the form for editing the specified resource.
  */
 public function edit(Barang $barang)
-{
-    $dvbarang = Role::query()->orderBy('divisi', 'asc')->get();
+{ // Debug here to ensure data is being fetched correctly
+    $dvbarang = Role::orderBy('divisi', 'asc')->get();
 
-    return inertia("Barang/Edit", [
+    return inertia('Barang/Edit', [
         'barang' => new BarangResource($barang),
         'dvbarang' => RoleResource::collection($dvbarang),
     ]);
 }
+
 
 /**
  * Update the specified resource in storage.
@@ -157,6 +159,9 @@ public function update(UpdateBarangRequest $request, Barang $barang)
      */
     public function destroy(Barang $barang)
     {
-        //
+        $name = $barang->nm_barang;
+        $barang->delete();
+        return to_route('inventory.index')
+            ->with('success', "User \"$name\" was deleted");
     }
 }

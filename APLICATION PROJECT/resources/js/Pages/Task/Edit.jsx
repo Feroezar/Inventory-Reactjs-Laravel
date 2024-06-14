@@ -6,7 +6,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, task, projects, users }) {
+export default function Create({ auth, task, nmBarang, users }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
     nomor_pr: task.nomor_pr || "",
@@ -81,19 +81,30 @@ export default function Create({ auth, task, projects, users }) {
                 <InputError message={errors.nomor_pr} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel htmlFor="task_name" value="Task Name" />
-
-                <TextInput
-                  id="task_name"
-                  type="text"
-                  name="name"
-                  value={data.name}
-                  className="mt-1 block w-full"
-                  isFocused={true}
-                  onChange={(e) => setData("name", e.target.value)}
+                <InputLabel
+                  htmlFor="task_nmBarang"
+                  value="Nama Barang"
                 />
 
-                <InputError message={errors.name} className="mt-2" />
+                <SelectInput
+                  name="name"
+                  id="task_divisi_task"
+                  className="mt-1 block w-full"
+                  value={data.name}
+                  onChange={(e) => setData("name", e.target.value)}
+                >
+                  <option value="">Select User</option>
+                  {nmBarang.data.map((user) => (
+                    <option value={user.id} key={user.id}>
+                      {user.nm_barang}
+                    </option>
+                  ))}
+                </SelectInput>
+
+                <InputError
+                  message={errors.divisi_task}
+                  className="mt-2"
+                />
               </div>
               <div className="mt-4">
                 <InputLabel

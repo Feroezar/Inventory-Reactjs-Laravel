@@ -17,11 +17,11 @@ export default function Index({ auth, users, barang, queryParams = null, success
       [id]: value,
     });
   };
-  const reduceStockForItem = (project) => {
-    const quantity = reduceStock[project.id];
+  const reduceStockForItem = (barangs) => {
+    const quantity = reduceStock[barangs.id];
     if (quantity && !isNaN(quantity)) {
       // Make an API call to reduce stock
-      axios.post(route("inventory.reduceStock", project.id), { quantity })
+      axios.post(route("inventory.reduceStock", barangs.id), { quantity })
         .then(response => {
           alert('Stock reduced successfully');
           // Optionally, refresh the page or update state to reflect changes
@@ -63,11 +63,11 @@ export default function Index({ auth, users, barang, queryParams = null, success
     router.get(route("inventory.index"), queryParams);
   };
 
-  const deleteProject = (project) => {
+  const deleteProject = (barangs) => {
     if (!window.confirm("Are you sure you want to delete the project?")) {
       return;
     }
-    router.delete(route("inventory.destroy", project.id));
+    router.delete(route("inventory.destroy", barangs.id));
   };
 
   return (
@@ -218,44 +218,44 @@ export default function Index({ auth, users, barang, queryParams = null, success
                     </tr>
                   </thead>
                   <tbody>
-                    {barang.data.map((project) => (
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={project.id}>
-                        <td className="px-3 py-2">{project.id}</td>
+                    {barang.data.map((barangs) => (
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={barangs.id}>
+                        <td className="px-3 py-2">{barangs.id}</td>
                         <td className="px-3 py-2">
-                          <img src={project.image_path} style={{ width: 60 }} />
+                          <img src={barangs.image_path} style={{ width: 60 }} />
                         </td>
-                        <td className="px-3 py-2">{project.kode_barang}</td>
+                        <td className="px-3 py-2">{barangs.kode_barang}</td>
                         <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
-                          <Link href={route("inventory.show", project.id)}>{project.nm_barang}</Link>
+                          <Link href={route("inventory.show", barangs.id)}>{barangs.nm_barang}</Link>
                         </th>
                         <td className="px-3 py-2 text-right">
-                          {project.stock}
+                          {barangs.stock}
                         </td>
                         <td className="px-3 py-2">
                           <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${project.stock < 0 ? "bg-red-100 text-red-800" : project.stock < 5 ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"}`}
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${barangs.stock < 0 ? "bg-red-100 text-red-800" : barangs.stock < 5 ? "bg-yellow-100 text-yellow-800" : "bg-green-100 text-green-800"}`}
                           >
-                            {project.stock < 0 ? "Empty" : project.stock < 5 ? "Low Stock" : "Safe"}
+                            {barangs.stock < 0 ? "Empty" : barangs.stock < 5 ? "Low Stock" : "Safe"}
                           </span>
                         </td>
-                        <td className="px-3 py-2 text-nowrap">{project.nmCategory.nm_category}</td>
+                        <td className="px-3 py-2 text-nowrap">{barangs.nmCategory.nm_category}</td>
                         <td className="px-3 py-2">
-                          <span className={"px-2 py-1 rounded text-nowrap text-white " + DIVISI_PRIORITY_CLASS_MAP[project.brgDivisi.divisi]}>
-                            {DIVISI_PRIORITY_TEXT_MAP[project.brgDivisi.divisi]}
+                          <span className={"px-2 py-1 rounded text-nowrap text-white " + DIVISI_PRIORITY_CLASS_MAP[barangs.brgDivisi.divisi]}>
+                            {DIVISI_PRIORITY_TEXT_MAP[barangs.brgDivisi.divisi]}
                           </span>
                         </td>
-                        <td className="px-3 py-2 text-nowrap">{project.created_at}</td>
-                        <td className="px-3 py-2">{project.updatedBy.name}</td>
+                        <td className="px-3 py-2 text-nowrap">{barangs.created_at}</td>
+                        <td className="px-3 py-2">{barangs.updatedBy.name}</td>
                         <td className="px-3 py-2 text-right">
                         <div className="flex items-center">
                             <Link
-                              href={route("inventory.edit", project.id)}
+                              href={route("inventory.edit", barangs.id)}
                               className="px-3 py-1 bg-indigo-500 text-white rounded ml-2 hover:bg-indigo-600"
                             >
                               Edit
                             </Link>
                             <button
-                              onClick={() => deleteProject(project)}
+                              onClick={() => deleteProject(barangs)}
                               className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
                             >
                               Delete
@@ -264,13 +264,13 @@ export default function Index({ auth, users, barang, queryParams = null, success
                               type="number"
                               className="ml-2 px-3 py-1 border rounded w-20"
                               min='1'
-                              max={project.stock}
-                              value={reduceStock[project.id] || ''}
-                              onChange={(e) => handleInputChange(project.id, e.target.value)}
+                              max={barangs.stock}
+                              value={reduceStock[barangs.id] || ''}
+                              onChange={(e) => handleInputChange(barangs.id, e.target.value)}
                               placeholder="Qty"
                             />
                             <button
-                              onClick={() => reduceStockForItem(project)}
+                              onClick={() => reduceStockForItem(barangs)}
                               className="ml-2 px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 focus:outline-none"
                             >
                               Reduce

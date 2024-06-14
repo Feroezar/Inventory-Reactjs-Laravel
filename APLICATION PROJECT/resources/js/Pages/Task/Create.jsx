@@ -7,10 +7,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { USER_PRIORITY_TEXT_MAP } from "@/constants.jsx";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, tasks, users }) {
+export default function Create({ auth, tasks, users, nmBarang }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
-    name: "",
     stock:"",
     nomor_pr:"",
     status: "pending",
@@ -72,19 +71,29 @@ export default function Create({ auth, tasks, users }) {
                 <InputError message={errors.nomor_pr} className="mt-2" />
               </div>
               <div className="mt-4">
-                <InputLabel htmlFor="task_name" value="Nama barang" />
-
-                <TextInput
-                  id="task_name"
-                  type="text"
-                  name="name"
-                  value={data.name}
-                  className="mt-1 block w-full"
-                  isFocused={true}
-                  onChange={(e) => setData("name", e.target.value)}
+                <InputLabel
+                  htmlFor="task_nmBarang"
+                  value="Nama Barang"
                 />
 
-                <InputError message={errors.name} className="mt-2" />
+                <SelectInput
+                  name="name"
+                  id="task_divisi_task"
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("name", e.target.value)}
+                >
+                  <option value="">Select User</option>
+                  {nmBarang.data.map((user) => (
+                    <option value={user.id} key={user.id}>
+                      {user.nm_barang}
+                    </option>
+                  ))}
+                </SelectInput>
+
+                <InputError
+                  message={errors.divisi_task}
+                  className="mt-2"
+                />
               </div>
               
               <div className="mt-4">
