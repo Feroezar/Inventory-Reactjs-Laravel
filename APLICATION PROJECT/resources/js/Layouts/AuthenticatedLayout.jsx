@@ -56,7 +56,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
               </NavLink>
               {isAdmin && (
                 <NavLink href={route("roles.index")} active={route().current("roles.index")}>
-                  Roles
+                  Divisi
                 </NavLink>
               )}
               {isAdmin && (
