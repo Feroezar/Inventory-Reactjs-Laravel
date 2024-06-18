@@ -190,7 +190,7 @@ export default function TasksTable({
                 </td>
                 <td className="px-3 py-2 text-nowrap">{task.nomor_pr}</td>       
                 <th className="px-3 py-2 text-gray-100 hover:underline">
-                  <Link href={route("task.show", task.id)}>{task.namaBarang.nm_barang}</Link>
+                  <Link href={route("task.show", task.id)}>{task.inventory.name}</Link>
                 </th>
                 <td className="px-3 py-2">
                   <span

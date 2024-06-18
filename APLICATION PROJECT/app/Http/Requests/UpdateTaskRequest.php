@@ -23,7 +23,7 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ['required', 'exists:barangs,id'],
+            "inv_brg_id" => ['required', 'exists:inventories,id'],
             'nomor_pr' => ['nullable', 'max:255'],
             'image' => ['nullable', 'image'],
             "description" => ['nullable', 'string'],

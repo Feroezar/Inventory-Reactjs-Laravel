@@ -6,13 +6,14 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, task, nmBarang, users }) {
+export default function Create({ auth, task, nmBarang, divisi, users }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
     nomor_pr: task.nomor_pr || "",
     stock: task.stock || "",
-    name: task.name || "",
+    inv_brg_id: task.inv_brg_id || "",
     status: task.status || "",
+    divisi_task: task.divisi_task || "",
     description: task.description || "",
     due_date: task.due_date || "",
     priority: task.priority || "",
@@ -32,7 +33,7 @@ export default function Create({ auth, task, nmBarang, users }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Edit task "{task.name}"
+            Edit task "{task.inventory.name}"
           </h2>
         </div>
       }
@@ -88,15 +89,15 @@ export default function Create({ auth, task, nmBarang, users }) {
 
                 <SelectInput
                   name="name"
-                  id="task_divisi_task"
+                  id="task_nmBarang"
                   className="mt-1 block w-full"
-                  value={data.name}
-                  onChange={(e) => setData("name", e.target.value)}
+                  value={data.inv_brg_id}
+                  onChange={(e) => setData("inv_brg_id", e.target.value)}
                 >
                   <option value="">Select User</option>
                   {nmBarang.data.map((user) => (
                     <option value={user.id} key={user.id}>
-                      {user.nm_barang}
+                      {user.name}
                     </option>
                   ))}
                 </SelectInput>
@@ -105,6 +106,23 @@ export default function Create({ auth, task, nmBarang, users }) {
                   message={errors.divisi_task}
                   className="mt-2"
                 />
+              </div>
+              <div className="mt-4">
+                <InputLabel
+                  htmlFor="task_stock"
+                  value="Jumlah Barang"
+                />
+
+                <TextInput
+                  id="task_stock"
+                  type="number"
+                  name="stock"
+                  value={data.stock}
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("stock", e.target.value)}
+                />
+
+                <InputError message={errors.stock} className="mt-2" />
               </div>
               <div className="mt-4">
                 <InputLabel
@@ -174,6 +192,33 @@ export default function Create({ auth, task, nmBarang, users }) {
                 <InputError message={errors.priority} className="mt-2" />
               </div>
 
+              <div className="mt-4">
+                <InputLabel
+                  htmlFor="task_divisi_task"
+                  value="Untuk Divisi"
+                />
+
+                <SelectInput
+                  name="divisi_task"
+                  id="task_divisi_task"
+                  className="mt-1 block w-full"
+                  value={data.divisi_task}
+                  onChange={(e) => setData("divisi_task", e.target.value)}
+                >
+                  <option value="">Select User</option>
+                  {divisi.data.map((user) => (
+                    <option value={user.id} key={user.id}>
+                      {user.divisi}
+                    </option>
+                  ))}
+                </SelectInput>
+
+                <InputError
+                  message={errors.divisi_task}
+                  className="mt-2"
+                />
+              </div>
+              
               <div className="mt-4">
                 <InputLabel
                   htmlFor="task_assigned_user"

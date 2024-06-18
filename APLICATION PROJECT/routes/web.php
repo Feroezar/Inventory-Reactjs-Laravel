@@ -3,6 +3,7 @@
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
@@ -24,9 +25,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/task/my-tasks', [TaskController::class, 'myTasks'])
         ->name('task.myTasks');
     Route::resource('category', CategoryController::class);
-    Route::resource('inventory', BarangController::class);
-    Route::post('/inventory/{id}/reduceStock', [BarangController::class, 'reduceStock'])->name('inventory.reduceStock');
-
+   
+    Route::resource('inventory', InventoryController::class);
+    Route::post('/inventory/{id}/reduceStock', [InventoryController::class, 'reduceStock'])->name('inventory.reduceStock');
     Route::resource('task', TaskController::class);
     Route::resource('user', UserController::class);
     Route::resource('roles', RoleController::class);

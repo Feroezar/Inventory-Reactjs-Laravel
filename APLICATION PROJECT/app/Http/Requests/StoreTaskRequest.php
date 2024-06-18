@@ -23,7 +23,7 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ['required', 'exists:barangs,id'],
+            "inv_brg_id" => ['required', 'exists:inventories,id'],
             'image' => ['nullable', 'image'],
             "description" => ['nullable', 'string'],
             'due_date' => ['nullable', 'date'],

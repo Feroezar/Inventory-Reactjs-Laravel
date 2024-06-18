@@ -12,7 +12,7 @@ class Task extends Model
     protected $fillable = [
         'nomor_pr',
         'stock',
-        'name',
+        'inv_brg_id',
         'description',
         'image_path',
         'status',
@@ -23,9 +23,9 @@ class Task extends Model
         'created_by',
         'updated_by',
     ];
-    public function namaBarang()
+    public function inventory()
     {
-        return $this->belongsTo(Barang::class, 'name');
+        return $this->belongsTo(Inventory::class, 'inv_brg_id');
     }
     public function divisiTask()
     {

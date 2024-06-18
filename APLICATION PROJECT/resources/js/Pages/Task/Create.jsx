@@ -77,21 +77,21 @@ export default function Create({ auth, tasks, users, nmBarang }) {
                 />
 
                 <SelectInput
-                  name="name"
-                  id="task_divisi_task"
+                  name="inv_brg_id"
+                  id="task_nmBarang"
                   className="mt-1 block w-full"
-                  onChange={(e) => setData("name", e.target.value)}
+                  onChange={(e) => setData("inv_brg_id", e.target.value)}
                 >
                   <option value="">Select User</option>
                   {nmBarang.data.map((user) => (
                     <option value={user.id} key={user.id}>
-                      {user.nm_barang}
+                      {user.name}
                     </option>
                   ))}
                 </SelectInput>
 
                 <InputError
-                  message={errors.divisi_task}
+                  message={errors.inv_brg_id}
                   className="mt-2"
                 />
               </div>
@@ -106,7 +106,6 @@ export default function Create({ auth, tasks, users, nmBarang }) {
                   id="task_stock"
                   type="number"
                   name="stock"
-                  value={data.stock}
                   className="mt-1 block w-full"
                   onChange={(e) => setData("stock", e.target.value)}
                 />

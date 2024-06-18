@@ -5,15 +5,13 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, tasks, users, category, divisi }) {
+export default function Create({ auth, divisi, category }) {
   const { data, setData, post, errors, reset } = useForm({
     image: "",
     kode_barang: "",
-    nm_barang: "",
+    name: "",
     stock: "",
-    status: "",
-    kategori: "", // added kategori
-    dv_barang: "", // added dv_barang
+
   });
 
   const onSubmit = (e) => {
@@ -28,12 +26,12 @@ export default function Create({ auth, tasks, users, category, divisi }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Create Barang Baru
+            Tambah Barang
           </h2>
         </div>
       }
     >
-      <Head title="Tasks" />
+      <Head title="Projects" />
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -43,9 +41,9 @@ export default function Create({ auth, tasks, users, category, divisi }) {
               className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
             >
               <div className="mt-4">
-                <InputLabel htmlFor="task_image" value="Image" />
+                <InputLabel htmlFor="inventory_image_path" value="Image Barang" />
                 <TextInput
-                  id="task_image"
+                  id="inventory_image_path"
                   type="file"
                   name="image"
                   className="mt-1 block w-full"
@@ -53,17 +51,15 @@ export default function Create({ auth, tasks, users, category, divisi }) {
                 />
                 <InputError message={errors.image} className="mt-2" />
               </div>
-
               <div className="mt-4">
-                <InputLabel htmlFor="task_kode_barang" value="Kode Barang" />
+                <InputLabel htmlFor="inventory_kode_barang" value="Kode Barang" />
 
                 <TextInput
-                  id="task_kode_barang"
+                  id="inventory_kode_barang"
                   type="text"
                   name="kode_barang"
                   value={data.kode_barang}
                   className="mt-1 block w-full"
-                  isFocused={true}
                   onChange={(e) => setData("kode_barang", e.target.value)}
                 />
 
@@ -71,26 +67,29 @@ export default function Create({ auth, tasks, users, category, divisi }) {
               </div>
 
               <div className="mt-4">
-                <InputLabel htmlFor="task_nm_barang" value="Nama barang" />
+                <InputLabel htmlFor="inventory_name" value="Nama Barang" />
 
                 <TextInput
-                  id="task_nm_barang"
+                  id="inventory_name"
                   type="text"
-                  name="nm_barang"
-                  value={data.nm_barang}
+                  name="name"
+                  value={data.name}
                   className="mt-1 block w-full"
                   isFocused={true}
-                  onChange={(e) => setData("nm_barang", e.target.value)}
+                  onChange={(e) => setData("name", e.target.value)}
                 />
 
-                <InputError message={errors.nm_barang} className="mt-2" />
+                <InputError message={errors.name} className="mt-2" />
               </div>
-              
+
               <div className="mt-4">
-                <InputLabel htmlFor="task_stock" value="Stock Barang" />
+                <InputLabel
+                  htmlFor="inventory_stock"
+                  value="Jumlah Barang"
+                />
 
                 <TextInput
-                  id="task_stock"
+                  id="inventory_stock"
                   type="number"
                   name="stock"
                   value={data.stock}
@@ -102,43 +101,55 @@ export default function Create({ auth, tasks, users, category, divisi }) {
               </div>
 
               <div className="mt-4">
-                <InputLabel htmlFor="task_kategori" value="Kategori Barang" />
+                <InputLabel
+                  htmlFor="inventory_category_id"
+                  value="Kategori Barang"
+                />
 
                 <SelectInput
-                  name="kategori" // changed name
-                  id="task_kategori"
+                  name="category_id"
+                  id="inventory_category_id"
                   className="mt-1 block w-full"
-                  onChange={(e) => setData("kategori", e.target.value)}
+                  onChange={(e) => setData("category_id", e.target.value)}
                 >
-                  <option value="">Select kategori</option>
-                  {category.data.map((kategoris) => (
-                    <option value={kategoris.id} key={kategoris.id}>
-                      {kategoris.nm_category}
+                  <option value="">Select Category</option>
+                  {category.data.map((inv) => (
+                    <option value={inv.id} key={inv.id}>
+                      {inv.nm_category}
                     </option>
                   ))}
                 </SelectInput>
 
-                <InputError message={errors.kategori} className="mt-2" />
-              </div>   
-
+                <InputError
+                  message={errors.category_id}
+                  className="mt-2"
+                />
+              </div>
+              
               <div className="mt-4">
-                <InputLabel htmlFor="task_dv_barang" value="Untuk Divisi" />
+                <InputLabel
+                  htmlFor="inventory_divisi_inv"
+                  value="Barang Divisi"
+                />
 
                 <SelectInput
-                  name="dv_barang" // changed name
-                  id="task_dv_barang"
+                  name="divisi_inv"
+                  id="inventory_divisi_inv"
                   className="mt-1 block w-full"
-                  onChange={(e) => setData("dv_barang", e.target.value)}
+                  onChange={(e) => setData("divisi_inv", e.target.value)}
                 >
-                  <option value="">Select Divisi</option>
-                  {divisi.data.map((div) => (
-                    <option value={div.id} key={div.id}>
-                      {div.divisi}
+                  <option value="">Select Category</option>
+                  {divisi.data.map((inv) => (
+                    <option value={inv.id} key={inv.id}>
+                      {inv.divisi}
                     </option>
                   ))}
                 </SelectInput>
 
-                <InputError message={errors.dv_barang} className="mt-2" />
+                <InputError
+                  message={errors.divisi_inv}
+                  className="mt-2"
+                />
               </div>
 
               <div className="mt-4 text-right">

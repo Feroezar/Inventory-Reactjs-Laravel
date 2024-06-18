@@ -120,7 +120,7 @@ public function reduceStock(Request $request, $id)
  * Show the form for editing the specified resource.
  */
 public function edit(Barang $barang)
-{ // Debug here to ensure data is being fetched correctly
+{
     $dvbarang = Role::orderBy('divisi', 'asc')->get();
 
     return inertia('Barang/Edit', [
@@ -128,6 +128,7 @@ public function edit(Barang $barang)
         'dvbarang' => RoleResource::collection($dvbarang),
     ]);
 }
+
 
 
 /**

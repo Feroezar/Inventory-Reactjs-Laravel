@@ -10,9 +10,11 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\BarangResource;
+use App\Http\Resources\InventoryResource;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserCrudResource;
 use App\Models\Barang;
+use App\Models\Inventory;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -64,13 +66,13 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $nmBarang = Barang::query()->orderBy('nm_barang', 'asc')->get();
+        $nmBarang = Inventory::query()->orderBy('name', 'asc')->get();
         $tasks  = Role::query()->orderBy('divisi', 'asc')->get();
         $users = User::query()
         ->whereIn('role', ['hod', 'spv'])
         ->get();
         return inertia("Task/Create", [
-            'nmBarang' => BarangResource::collection($nmBarang),
+            'nmBarang' => InventoryResource::collection($nmBarang),
             'tasks' => RoleResource::collection($tasks),
             'users' => UserResource::collection($users),
         ]);
@@ -110,14 +112,14 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $nmBarang = Barang::query()->orderBy('nm_barang', 'asc')->get();
-        $tasks  = Role::query()->orderBy('divisi', 'asc')->get();
+        $nmBarang = Inventory::query()->orderBy('name', 'asc')->get();
+        $divisi  = Role::query()->orderBy('divisi', 'asc')->get();
         $users = User::query()->orderBy('name', 'asc')->get();
 
         return inertia("Task/Edit", [
             'task' => new TaskResource($task),
-            'nmBarang' => BarangResource::collection($nmBarang),
-            'tasks' => RoleResource::collection($tasks),
+            'nmBarang' => InventoryResource::collection($nmBarang),
+            'divisi' => RoleResource::collection($divisi),
             'users' => UserResource::collection($users),
         ]);
     }
@@ -139,7 +141,7 @@ class TaskController extends Controller
         $task->update($data);
 
         return to_route('task.index')
-            ->with('success', "Pemesanan \"$task->name\" Berhasil Di Perbarui");
+            ->with('success', "Pemesanan Berhasil Di Perbarui");
     }
 
     /**

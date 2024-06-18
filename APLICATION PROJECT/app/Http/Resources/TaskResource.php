@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Inventory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,8 +22,8 @@ class TaskResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'namaBarang' => $this->namaBarang ? new BarangResource($this->namaBarang) : null,
+            'inv_brg_id' => $this->inv_brg_id,
+            'inventory' => $this->inventory ? new InventoryResource($this->inventory) : null,
             'description' => $this->description,
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'due_date' => (new Carbon($this->due_date))->format('Y-m-d'),

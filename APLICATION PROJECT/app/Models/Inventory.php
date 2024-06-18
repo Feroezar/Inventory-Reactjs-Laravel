@@ -5,32 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Barang extends Model
+class Inventory extends Model
 {
     use HasFactory;
-/**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'image_path',
         'kode_barang',
-        'nm_barang',
+        'name',
         'stock',
-        'kategori',
-        'dv_barang',
+        'category_id',
+        'divisi_inv',
         'created_by',
         'updated_by',
     ];
-    public function nmCategory()
-    {
-        return $this->belongsTo(Category::class, 'kategori');
-    }
-    public function brgDivisi()
-    {
-        return $this->belongsTo(Role::class, 'dv_barang');
-    }
+    public function categoryid()
+     {
+        return $this->belongsTo(Category::class, 'category_id');
+     }
+    public function divisiinv()
+     {
+        return $this->belongsTo(Role::class, 'divisi_inv');
+     }
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');

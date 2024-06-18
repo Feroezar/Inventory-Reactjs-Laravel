@@ -10,6 +10,7 @@ import {
 } from "@/constants.jsx";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
+import { useState } from "react";
 
 export default function Index({ auth, users, projects, queryParams = null, success }) {
   queryParams = queryParams || {};
@@ -96,7 +97,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                       <th className="px-3 py-3">Image</th>
 
                       <TableHeading
-                        name="name"
+                        name="nomor_pr"
                         sort_field={queryParams.sort_field}
                         sort_direction={queryParams.sort_direction}
                         sortChanged={sortChanged}
@@ -177,7 +178,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
 
                         <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
                           <Link href={route("task.show", project.id)}>
-                            {project.namaBarang.nm_barang}
+                            {project.inventory.name}
                           </Link>
                         </th>
                         <td className="px-3 py-2 text-nowrap">
