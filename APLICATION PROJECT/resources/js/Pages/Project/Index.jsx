@@ -176,7 +176,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                         </td>
                         <td className="px-3 py-2">{project.nomor_pr}</td>
 
-                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
+                        <th className="px-3 py-2 text-gray-500 text-nowrap hover:underline">
                           <Link href={route("task.show", project.id)}>
                             {project.inventory.name}
                           </Link>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
@@ -6,11 +6,32 @@ import { Link } from "@inertiajs/react";
 
 export default function AuthenticatedLayout({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check localStorage for the theme preference
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const isAdmin = user.role === 'admin';
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col md:flex-row">
+    <div className={`min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col md:flex-row ${isDarkMode ? 'dark' : ''}`}>
       <nav className="bg-white dark:bg-gray-800 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700 w-full md:w-64">
         <div className="h-full flex flex-col justify-between">
           <div>
@@ -68,6 +89,12 @@ export default function AuthenticatedLayout({ user, header, children }) {
           </div>
 
           <div className="px-4 py-2">
+            <button
+              onClick={toggleDarkMode}
+              className="mb-4 w-full px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+            >
+              {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            </button>
             <Dropdown>
               <Dropdown.Trigger>
                 <span className="inline-flex rounded-md w-full">
@@ -76,7 +103,6 @@ export default function AuthenticatedLayout({ user, header, children }) {
                     className="inline-flex items-center justify-between w-full px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                   >
                     {user.name}
-
                     <svg className="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path
                         fillRule="evenodd"

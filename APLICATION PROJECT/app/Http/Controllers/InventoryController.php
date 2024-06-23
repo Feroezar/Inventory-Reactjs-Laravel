@@ -37,6 +37,9 @@ class InventoryController extends Controller
             'success' => session('success'),
         ]);
     }
+    public function laporan(){
+        
+    }
     public function reduceStock(Request $request, $id)
 {
     $quantity = $request->input('quantity');

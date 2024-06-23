@@ -189,7 +189,7 @@ export default function TasksTable({
                   <img src={task.image_path} style={{ width: 60 }} />
                 </td>
                 <td className="px-3 py-2 text-nowrap">{task.nomor_pr}</td>       
-                <th className="px-3 py-2 text-gray-100 hover:underline">
+                <th className="px-3 py-2 text-gray-500 hover:underline">
                   <Link href={route("task.show", task.id)}>{task.inventory.name}</Link>
                 </th>
                 <td className="px-3 py-2">

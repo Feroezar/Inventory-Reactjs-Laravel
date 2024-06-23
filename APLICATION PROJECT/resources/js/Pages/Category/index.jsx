@@ -48,7 +48,7 @@ export default function Index({ auth, category, queryParams = null, success }){
         header={
           <div className="flex items-center justify-between">
             <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-              Roles
+              Category Barang
             </h2>
             <Link
               href={route("category.create")}
@@ -118,7 +118,7 @@ export default function Index({ auth, category, queryParams = null, success }){
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
+                        <th className="px-3 py-2 text-gray-500 text-nowrap hover:underline">
                           {project.nm_category}
                         </th>
                         <td className="px-3 py-2 text-nowrap">

@@ -80,7 +80,7 @@ export default function Index({ auth, inventory, queryParams = null, success }) 
       header={
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Roles
+            Inventory
           </h2>
           <Link
             href={route("inventory.create")}
@@ -103,6 +103,14 @@ export default function Index({ auth, inventory, queryParams = null, success }) 
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <div className="overflow-x-auto">
+                <div className="flex items-center justify-between mb-2">
+                <Link
+                  href={route("inventory.laporan")}
+                  className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
+                >
+                  Laporan
+                </Link>
+                </div>
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
@@ -212,7 +220,7 @@ export default function Index({ auth, inventory, queryParams = null, success }) 
                         <td className="px-3 py-2">
                           <img src={project.image_path} style={{ width: 60 }} />
                         </td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
+                        <th className="px-3 py-2 text-gray-500 text-nowrap hover:underline">
                           {project.name}
                         </th>
                         <td className="px-3 py-2">

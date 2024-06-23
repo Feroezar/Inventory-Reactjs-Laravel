@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
    
     Route::resource('inventory', InventoryController::class);
     Route::post('/inventory/{id}/reduceStock', [InventoryController::class, 'reduceStock'])->name('inventory.reduceStock');
+    Route::get('/inventory/laporan', [InventoryController::class, 'laporan'])->name('inventory.laporan');
     Route::resource('task', TaskController::class);
     Route::resource('user', UserController::class);
     Route::resource('roles', RoleController::class);

@@ -118,7 +118,7 @@ export default function Index({ auth, role, queryParams = null, success }){
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
+                        <th className="px-3 py-2 text-gray-500 text-nowrap hover:underline">
                           {project.divisi}
                         </th>
                         <td className="px-3 py-2 text-nowrap">
