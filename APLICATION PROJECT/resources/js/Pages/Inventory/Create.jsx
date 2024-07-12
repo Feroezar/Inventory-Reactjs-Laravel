@@ -10,7 +10,7 @@ export default function Create({ auth, divisi, category }) {
     image: "",
     kode_barang: "",
     name: "",
-    stock: "",
+    stock: "0",
 
   });
 

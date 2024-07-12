@@ -9,6 +9,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\InventoryResource;
 use App\Http\Resources\RoleResource;
 use App\Models\Category;
+use App\Models\Laporan;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -22,42 +23,58 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        $user = auth()->user(); // Get the authenticated user
         $query = Inventory::query();
+    
+        // Filter by the user's division
+        $query->whereHas('divisiinv', function ($q) use ($user) {
+            $q->where('divisi_inv', $user->divisi_id);
+        });
 
-        $sortField = request("sort_field", 'id');
-        $sortDirection = request("sort_direction", "asc");
-
+        if (request("name")) {
+            $query->where("name", "like", "%" . request("name") . "%");
+        }
+        if (request("kode_barang")) {
+            $query->where("kode_barang", "like", "%" . request("kode_barang") . "%");
+        }
+        $sortField = request('sort_field', 'id');
+        $sortDirection = request('sort_direction', 'asc');
+    
         $inventory = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
-
-        return inertia("Inventory/Index", [
-            "inventory" => InventoryResource::collection($inventory),
+    
+        return inertia('Inventory/Index', [
+            'inventory' => InventoryResource::collection($inventory),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
         ]);
     }
-    public function laporan(){
-        
-    }
     public function reduceStock(Request $request, $id)
 {
-    $quantity = $request->input('quantity');
-    $inventory = Inventory::findOrFail($id);
+    $request->validate([
+        'quantity' => 'required|integer|min:1',
+    ]);
 
-    if (!is_numeric($quantity) || $quantity <= 0) {
-        return response()->json(['error' => 'Invalid quantity provided'], 400);
-    }
+    $inventory = Inventory::findOrFail($id);
+    $quantity = $request->input('quantity');
 
     if ($inventory->stock < $quantity) {
-        return response()->json(['error' => 'Insufficient stock'], 400);
+        return response()->json(['message' => 'Insufficient stock'], 400);
     }
 
     $inventory->stock -= $quantity;
-    $inventory['updated_by'] = Auth::id();
     $inventory->save();
 
-    return response()->json(['success' => 'Stock reduced successfully'], 200);
+    // Mencatat laporan
+    Laporan::create([
+        'barang_id' => $inventory->id,
+        'quantity' => $quantity,
+        'user_id' => auth()->id(),
+        'action' => 'reduce',
+    ]);
+
+    return response()->json(['message' => 'Stock reduced successfully']);
 }
 
     /**
@@ -144,7 +161,7 @@ class InventoryController extends Controller
         if ($inventory->image_path) {
             Storage::disk('public')->deleteDirectory(dirname($inventory->image_path));
         }
-        return to_route('task.index')
+        return to_route('inventory.index')
             ->with('success', "Pemesanan \"$name\" Berhasil di hapus");
     }
 }

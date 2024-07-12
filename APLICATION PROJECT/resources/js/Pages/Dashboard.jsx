@@ -80,12 +80,12 @@ export default function Dashboard({
                   {activeTasks.data.map((task) => (
                     <tr key={task.id}>
                       <td className="px-3 py-2">{task.nomor_pr}</td>
-                      <td className="px-3 py-2 text-white hover:underline">
+                      <td className="px-3 py-2 text-grey hover:underline">
                         <Link href={route("task.show", task.id)}>
                           {task.inventory.name}
                         </Link>
                       </td>
-                      <td className="px-3 py-2 text-white hover:underline">
+                      <td className="px-3 py-2 text-grey hover:underline">
                         <Link href={route("task.show", task.id)}>
                           {task.description}
                         </Link>

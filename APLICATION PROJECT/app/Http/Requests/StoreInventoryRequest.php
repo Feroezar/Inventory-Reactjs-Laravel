@@ -25,7 +25,7 @@ class StoreInventoryRequest extends FormRequest
             'name' => ['required', 'max:255'],
             'image' => ['nullable','image'],
             'kode_barang' => ['required', 'max:255'],
-            'stock' => ['required', 'max:255'],
+            'stock' => ['nullable', 'max:255'],
             'category_id' => ['required', 'exists:categories,id'],
             'divisi_inv' => ['required', 'exists:roles,id'],
         ];

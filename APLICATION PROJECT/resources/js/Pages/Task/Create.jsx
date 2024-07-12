@@ -45,17 +45,6 @@ export default function Create({ auth, tasks, users, nmBarang }) {
               className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
             >
               <div className="mt-4">
-                <InputLabel htmlFor="task_image_path" value="Task Image" />
-                <TextInput
-                  id="task_image_path"
-                  type="file"
-                  name="image"
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("image", e.target.files[0])}
-                />
-                <InputError message={errors.image} className="mt-2" />
-              </div>
-              <div className="mt-4">
                 <InputLabel htmlFor="task_nomor_pr" value="Nomor PR" />
 
                 <TextInput

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -60,7 +61,6 @@ class TaskController extends Controller
             'hideedit' => $hideedit,
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -158,32 +158,71 @@ class TaskController extends Controller
             ->with('success', "Pemesanan \"$name\" Berhasil di hapus");
     }
 
-    public function myTasks()
+    public function myTasks(Request $request)
     {
-        $user = auth()->user();
-        $query = Task::query()->where('assigned_user_id', $user->id);
+        
+    $user = auth()->user(); 
+    $query = Task::query()->where('assigned_user_id', $user->id);
 
-        $sortField = request("sort_field", 'created_at');
-        $sortDirection = request("sort_direction", "desc");
+    $sortField = $request->get("sort_field", 'created_at');
+    $sortDirection = $request->get("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        if (request("nomor_pr")) {
-            $query->where("nomor_pr", "like", "%" . request("nomor_pr") . "%");
-        }
-        if (request("status")) {
-            $query->where("status", request("status"));
-        }
+    if ($request->filled("inv_brg_id")) {
+        $inventory = Inventory::where('name', 'like', "%" . $request->get("inv_brg_id") . "%")->pluck('id');
+        $query->whereIn("inv_brg_id", $inventory);
+    }
+    if ($request->filled("nomor_pr")) {
+        $query->where("nomor_pr", "like", "%" . $request->get("nomor_pr") . "%");
+    }
+    if ($request->filled("status")) {
+        $query->where("status", $request->get("status"));
+    }
 
-        $tasks = $query->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->onEachSide(1);
+    $tasks = $query->orderBy($sortField, $sortDirection)
+        ->paginate(10)
+        ->onEachSide(1);
 
-        return inertia("Task/Index", [
-            "tasks" => TaskResource::collection($tasks),
-            'queryParams' => request()->query() ?: null,
-            'success' => session('success'),
-        ]);
+    return inertia("Task/Index", [
+        "tasks" => TaskResource::collection($tasks),
+        'queryParams' => $request->query() ?: null,
+        'success' => session('success'),
+    ]);
+    }
+    public function pemesanan()
+    {
+        $query = Task::query();       
+    $user = auth()->user();
+    $sortField = request("sort_field", 'id');
+    $sortDirection = request("sort_direction", "asc");
+
+    if (request("nomor_pr")) {
+        $query->where("nomor_pr", "like", "%" . request("nomor_pr") . "%");
+    }
+    if (request("status")) {
+        $query->where("status", request("status"));
+    }
+    if (request("inv_brg_id")) {
+        $invBrgIds = Inventory::where('name', 'like', '%' . request('inv_brg_id') . '%')->pluck('id');
+        $query->whereIn('inv_brg_id', $invBrgIds);
+    }
+    if (request("divisi_task")) {
+        $divisiid = Role::where('divisi', 'like', '%' . request('divisi_task') . '%')->pluck('id');
+        $query->whereIn('divisi_task', $divisiid);
+    }
+    $tasks = $query->orderBy($sortField, $sortDirection)
+        ->paginate(10)
+        ->onEachSide(1);
+
+    $hideedit = $user->divisi && $user->divisi->divisi !== 'PURCHESING';
+
+    return inertia("Task/Pemesanan", [
+        "tasks" => TaskResource::collection($tasks),
+        'queryParams' => request()->query() ?: null,
+        'success' => session('success'),
+        'auth' => [
+            'user' => new UserCrudResource($user)
+        ],
+        'hideedit' => $hideedit,
+    ]);
     }
 }

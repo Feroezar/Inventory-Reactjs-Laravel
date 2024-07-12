@@ -23,6 +23,11 @@
         "@heroicons/react": "^2.1.1",
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-react": "^0.8.1",
+        "@react-pdf/renderer": "^3.4.4",
+        "date-fns": "^3.6.0",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^2.5.1",
+        "react-datepicker": "^7.2.0",
         "use-mutation": "^2.2.1",
         "ziggy-js": "^2.2.1"
     }

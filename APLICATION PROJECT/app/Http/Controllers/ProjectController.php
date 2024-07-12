@@ -9,6 +9,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\UserCrudResource;
 use App\Http\Resources\UserResource;
+use App\Models\Inventory;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +40,8 @@ class ProjectController extends Controller
             $query->where("status", request("status"));
         }
         $users = $queryss->orderBy($sortField, $sortDirection)
-        ->paginate(10)
-        ->onEachSide(1);
+            ->paginate(10)
+            ->onEachSide(1);
         $projects = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
@@ -54,6 +55,33 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * Add task stock to inventory.
+     */
+    public function addToInventory(Task $task)
+{
+    if ($task->is_added_to_inventory) {
+        return redirect()->back()->with('error', 'Barang sudah ditambahkan ke inventory.');
+    }
+
+    $inventory = Inventory::find($task->inv_brg_id);
+
+    if ($inventory) {
+        $inventory->stock += $task->stock;
+        $inventory->save();
+
+        $task->is_added_to_inventory = true;
+        $task->save();
+
+        return redirect()->back()->with('success', 'Barang berhasil ditambahkan ke inventory.');
+    }
+
+    return redirect()->back()->with('error', 'Barang tidak ditemukan di inventory.');
+}
+
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Task $project)
     {
         $name = $project->name;
@@ -64,5 +92,4 @@ class ProjectController extends Controller
         return to_route('project.index')
             ->with('success', "Project \"$name\" was deleted");
     }
-    
 }

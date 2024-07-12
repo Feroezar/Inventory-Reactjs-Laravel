@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('barang_id')->constrained('inventories');
+            $table->integer('quantity');
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('action');
             $table->timestamps();
         });
     }

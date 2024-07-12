@@ -14,29 +14,24 @@ import { useState } from "react";
 
 export default function Index({ auth, users, projects, queryParams = null, success }) {
   queryParams = queryParams || {};
+  
   const searchFieldChanged = (name, value) => {
     if (value) {
       queryParams[name] = value;
     } else {
       delete queryParams[name];
     }
-
     router.get(route("project.index"), queryParams);
   };
 
   const onKeyPress = (name, e) => {
     if (e.key !== "Enter") return;
-
     searchFieldChanged(name, e.target.value);
   };
 
   const sortChanged = (name) => {
     if (name === queryParams.sort_field) {
-      if (queryParams.sort_direction === "asc") {
-        queryParams.sort_direction = "desc";
-      } else {
-        queryParams.sort_direction = "asc";
-      }
+      queryParams.sort_direction = queryParams.sort_direction === "asc" ? "desc" : "asc";
     } else {
       queryParams.sort_field = name;
       queryParams.sort_direction = "asc";
@@ -50,6 +45,14 @@ export default function Index({ auth, users, projects, queryParams = null, succe
     }
     router.delete(route("project.destroy", project.id));
   };
+
+  const addToInventory = (project) => {
+    if (!window.confirm("Apakah Anda yakin ingin menambahkan barang ke inventory?")) {
+      return;
+    }
+    router.post(route("task.addToInventory", project.id));
+  };
+
   const completedProjects = projects.data.filter(project => project.status === 'completed');
 
   return (
@@ -58,7 +61,6 @@ export default function Index({ auth, users, projects, queryParams = null, succe
       header={
         <div className="flex justify-between items-center">
           {users.data.map((user) => {
-            // Check if the current user is the logged-in user
             if (user.id === auth.user.id) {
               return (
                 <h2 key={user.id} className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -66,7 +68,7 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                 </h2>
               );
             }
-            return null; // Return null for users other than the logged-in user
+            return null;
           })}
         </div>
       }
@@ -94,7 +96,6 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                       >
                         ID
                       </TableHeading>
-                      <th className="px-3 py-3">Image</th>
 
                       <TableHeading
                         name="nomor_pr"
@@ -135,7 +136,6 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
                       <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
                       <th className="px-3 py-3">
                         <TextInput
                           className="w-full"
@@ -171,9 +171,6 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
-                        <td className="px-3 py-2">
-                          <img src={project.image_path} style={{ width: 60 }} />
-                        </td>
                         <td className="px-3 py-2">{project.nomor_pr}</td>
 
                         <th className="px-3 py-2 text-gray-500 text-nowrap hover:underline">
@@ -196,11 +193,23 @@ export default function Index({ auth, users, projects, queryParams = null, succe
                             Edit
                           </Link>
                           <button
-                            onClick={(e) => deleteProject(project)}
+                            onClick={() => deleteProject(project)}
                             className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
                           >
                             Delete
                           </button>
+                          {project.is_added_to_inventory ? (
+                            <span className="font-medium text-green-600 dark:text-green-500 mx-1">
+                              &#10003; Added
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => addToInventory(project)}
+                              className="font-medium text-green-600 dark:text-green-500 hover:underline mx-1"
+                            >
+                              Tambah ke Inventory
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}

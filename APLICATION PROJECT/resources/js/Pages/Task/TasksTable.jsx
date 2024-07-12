@@ -13,6 +13,7 @@ export default function TasksTable({
   hideedit = false,
 }) {
   queryParams = queryParams || {};
+
   const searchFieldChanged = (name, value) => {
     if (value) {
       queryParams[name] = value;
@@ -69,8 +70,7 @@ export default function TasksTable({
               >
                 ID
               </TableHeading>
-              <th className="px-3 py-3">Image</th>
-                <th className="px-3 py-3">Nomor PR</th>
+              <th className="px-3 py-3">Nomor PR</th>
               <TableHeading
                 name="stock"
                 sort_field={queryParams.sort_field}
@@ -79,7 +79,6 @@ export default function TasksTable({
               >
                 Nama Barang
               </TableHeading>
-
               <TableHeading
                 name="status"
                 sort_field={queryParams.sort_field}
@@ -88,15 +87,16 @@ export default function TasksTable({
               >
                 Status
               </TableHeading>
-              {!hideProjectColumn &&(
-              <TableHeading
-                name="divisi"
-                sort_field={queryParams.sort_field}
-                sort_direction={queryParams.sort_direction}
-                sortChanged={sortChanged}
-              >
-                Divisi
-              </TableHeading>)}
+              {!hideProjectColumn && (
+                <TableHeading
+                  name="divisi"
+                  sort_field={queryParams.sort_field}
+                  sort_direction={queryParams.sort_direction}
+                  sortChanged={sortChanged}
+                >
+                  Divisi
+                </TableHeading>
+              )}
               <TableHeading
                 name="created_at"
                 sort_field={queryParams.sort_field}
@@ -113,7 +113,6 @@ export default function TasksTable({
               >
                 Create Date
               </TableHeading>
-
               <TableHeading
                 name="update_at"
                 sort_field={queryParams.sort_field}
@@ -123,31 +122,30 @@ export default function TasksTable({
                 Update date
               </TableHeading>
               <th className="px-3 py-3">Created By</th>
-              {!hideedit &&<th className="px-3 py-3 text-right">Actions</th>}
+              {!hideedit && <th className="px-3 py-3 text-right">Actions</th>}
             </tr>
           </thead>
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
             <tr className="text-nowrap">
               <th className="px-3 py-3"></th>
-              <th className="px-3 py-3"></th>
               <th className="px-3 py-3">
                 <TextInput
-                    className="w-full"
-                    defaultValue={queryParams.nomor_pr}
-                    placeholder="Nomor PR"
-                    onBlur={(e) =>
-                      searchFieldChanged("nomor_pr", e.target.value)
-                    }
-                    onKeyPress={(e) => onKeyPress("nomor_pr", e)}
-                  />
+                  className="w-full"
+                  defaultValue={queryParams.nomor_pr}
+                  placeholder="Nomor PR"
+                  onBlur={(e) =>
+                    searchFieldChanged("nomor_pr", e.target.value)
+                  }
+                  onKeyPress={(e) => onKeyPress("nomor_pr", e)}
+                />
               </th>
               <th className="px-3 py-3">
-              <TextInput
+                <TextInput
                   className="w-full"
-                  defaultValue={queryParams.name}
-                  placeholder="Task Name"
-                  onBlur={(e) => searchFieldChanged("name", e.target.value)}
-                  onKeyPress={(e) => onKeyPress("name", e)}
+                  defaultValue={queryParams.inv_brg_id}
+                  placeholder="Inventory Name"
+                  onBlur={(e) => searchFieldChanged("inv_brg_id", e.target.value)}
+                  onKeyPress={(e) => onKeyPress("inv_brg_id", e)}
                 />
               </th>
               <th className="px-3 py-3">
@@ -162,20 +160,22 @@ export default function TasksTable({
                   <option value="completed">Completed</option>
                 </SelectInput>
               </th>
-              {!hideProjectColumn && <th className="px-3 py-3">
-              <TextInput
-                  className="w-full"
-                  defaultValue={queryParams.divisi}
-                  placeholder="divisi"
-                  onBlur={(e) => searchFieldChanged("divisi", e.target.value)}
-                  onKeyPress={(e) => onKeyPress("divisi", e)}
-                />
-              </th>}
+              {!hideProjectColumn && (
+                <th className="px-3 py-3">
+                  <TextInput
+                    className="w-full"
+                    defaultValue={queryParams.divisi}
+                    placeholder="Divisi"
+                    onBlur={(e) => searchFieldChanged("divisi", e.target.value)}
+                    onKeyPress={(e) => onKeyPress("divisi", e)}
+                  />
+                </th>
+              )}
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
-              {!hideedit &&<th className="px-3 py-3"></th>}
+              {!hideedit && <th className="px-3 py-3"></th>}
             </tr>
           </thead>
           <tbody>
@@ -185,10 +185,7 @@ export default function TasksTable({
                 key={task.id}
               >
                 <td className="px-3 py-2">{task.id}</td>
-                <td className="px-3 py-2">
-                  <img src={task.image_path} style={{ width: 60 }} />
-                </td>
-                <td className="px-3 py-2 text-nowrap">{task.nomor_pr}</td>       
+                <td className="px-3 py-2 text-nowrap">{task.nomor_pr}</td>
                 <th className="px-3 py-2 text-gray-500 hover:underline">
                   <Link href={route("task.show", task.id)}>{task.inventory.name}</Link>
                 </th>
@@ -203,34 +200,37 @@ export default function TasksTable({
                   </span>
                 </td>
                 {!hideProjectColumn && (
-                <td className="px-3 py-2">
-                  <span
-                    className={
-                      "px-2 py-1 rounded text-nowrap text-white " +
-                      DIVISI_PRIORITY_CLASS_MAP[task.divisiTask.divisi]
-                    }
-                  >
-                    {DIVISI_PRIORITY_TEXT_MAP[task.divisiTask.divisi]}
-                  </span>
-                </td>)}
+                  <td className="px-3 py-2">
+                    <span
+                      className={
+                        "px-2 py-1 rounded text-nowrap text-white " +
+                        DIVISI_PRIORITY_CLASS_MAP[task.divisiTask.divisi]
+                      }
+                    >
+                      {DIVISI_PRIORITY_TEXT_MAP[task.divisiTask.divisi]}
+                    </span>
+                  </td>
+                )}
                 <td className="px-3 py-2">{task.stock}</td>
                 <td className="px-3 py-2 text-nowrap">{task.created_at}</td>
                 <td className="px-3 py-2 text-nowrap">{task.due_date}</td>
                 <td className="px-3 py-2">{task.createdBy.name}</td>
-                {!hideedit && <td className="px-3 py-2 text-nowrap">
-                      <Link
-                        href={route("task.edit", task.id)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        onClick={(e) => deleteTask(task)}
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                      >
-                        Delete
-                      </button>
-                </td>} 
+                {!hideedit && (
+                  <td className="px-3 py-2 text-nowrap">
+                    <Link
+                      href={route("task.edit", task.id)}
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={(e) => deleteTask(task)}
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

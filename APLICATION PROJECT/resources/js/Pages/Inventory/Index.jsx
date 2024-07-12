@@ -19,7 +19,7 @@ export default function Index({ auth, inventory, queryParams = null, success }) 
   const reduceStockForItem = (project) => {
     const quantity = reduceStock[project.id];
     if (quantity && !isNaN(quantity)) {
-      // Make an API call to reduce stock
+      // Make an API call to reduce stock and log to laporan
       axios
         .post(route("inventory.reduceStock", project.id), { quantity })
         .then((response) => {
@@ -105,7 +105,7 @@ export default function Index({ auth, inventory, queryParams = null, success }) 
               <div className="overflow-x-auto">
                 <div className="flex items-center justify-between mb-2">
                 <Link
-                  href={route("inventory.laporan")}
+                  href={route("laporan.index")}
                   className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
                 >
                   Laporan

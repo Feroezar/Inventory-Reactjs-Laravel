@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
@@ -24,12 +25,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('project.myInventory');
     Route::get('/task/my-tasks', [TaskController::class, 'myTasks'])
         ->name('task.myTasks');
+    Route::get('/task/Pemesanan', [TaskController::class, 'pemesanan'])
+        ->name('task.pemesanan');
     Route::resource('category', CategoryController::class);
    
     Route::resource('inventory', InventoryController::class);
     Route::post('/inventory/{id}/reduceStock', [InventoryController::class, 'reduceStock'])->name('inventory.reduceStock');
     Route::get('/inventory/laporan', [InventoryController::class, 'laporan'])->name('inventory.laporan');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::resource('task', TaskController::class);
+    Route::post('/tasks/add-to-inventory/{task}', [ProjectController::class, 'addToInventory'])->name('task.addToInventory');
     Route::resource('user', UserController::class);
     Route::resource('roles', RoleController::class);
 });
